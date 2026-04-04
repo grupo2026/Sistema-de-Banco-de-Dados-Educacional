@@ -20,6 +20,8 @@ O projeto está sendo desenvolvido em grupo, com divisão de tarefas entre os in
 
 - script inicial
 
+---
+
 ## 💾 Banco de Dados
 O projeto utiliza um modelo relacional com:
 
