@@ -18,7 +18,7 @@ O projeto está sendo desenvolvido em grupo, com divisão de tarefas entre os in
 
 ### 📂 Conteúdo da pasta sql:
 
-- script inicial
+- Script inicial
 
 ---
 
