@@ -1,4 +1,4 @@
-## Regras de Negócio
+# Regras de Negócio
 
 RN01 – Aluno deve estar cadastrado para matrícula  
 
