@@ -12,7 +12,7 @@ RF04 – Manter histórico de alterações cadastrais
 
 ### 1.2 Módulo Acadêmico
 RF05 – Cadastrar alunos
-RF06 – Atualizar dados dos alunos
+RF06 – Atualizar dados dos alunos 
 RF07 – Consultar alunos
 RF08 – Garantir unicidade do aluno
 RF09 – Realizar matrícula
