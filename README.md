@@ -1,39 +1,36 @@
-# Sistema-de-Banco-de-Dados-Educacional
-# Projeto Banco de Dados Educacional
+# Sistema de Banco de Dados Educacional
 
-Repositório destinado ao desenvolvimento do projeto de modelagem de banco de dados.
+## 📌 Sobre o Projeto
 
-O projeto está sendo desenvolvido em grupo, com divisão de tarefas entre os integrantes.
+Este projeto tem como objetivo modelar um sistema de banco de dados voltado para uma escola pública de ensino fundamental e médio, com base na proposta do SisGESC (Sistema de Gestão Educacional).
 
+A proposta surgiu a partir de necessidades reais identificadas na escola analisada, que relatou dificuldades na organização e integração das informações. A ideia é tornar esse controle mais eficiente, garantindo mais segurança, praticidade e melhor acompanhamento do desempenho dos alunos.
 
-### 📂 Conteúdo da pasta docs:
-- Introdução  
-- Requisitos  
-- Dicionário de Dados  
-- Regras de Negócio  
-- BI e IA  
-- DER (Diagrama Entidade-Relacionamento)  
+O sistema foi estruturado em três módulos principais: acadêmico, financeiro e de recursos humanos. Esses módulos trabalham de forma integrada para gerenciar alunos, responsáveis e colaboradores dentro da instituição.
+
+Como diferencial, o projeto propõe uma solução voltada à segurança dos alunos, com cadastro de responsáveis e contatos de emergência, além de um sistema de notificação que informa, em tempo real, a presença ou ausência nas aulas. Essa funcionalidade busca atender uma situação comum em escolas públicas, onde alunos podem sair do ambiente escolar após o registro de presença.
+
+A modelagem do banco foi desenvolvida a partir de um Diagrama Entidade-Relacionamento (DER), construído com base nas necessidades levantadas em uma entrevista com a coordenação da escola.
 
 ---
 
-### 📂 Conteúdo da pasta sql:
+## 🎯 Objetivo
 
-- Script inicial
-
----
-
-## 💾 Banco de Dados
-O projeto utiliza um modelo relacional com:
-
-- uso de chaves primárias (PK)  
-- uso de chaves estrangeiras (FK)  
-- padronização em snake_case  
-- aplicação de constraints (NOT NULL, UNIQUE, CHECK)  
+Desenvolver uma modelagem de banco de dados que atenda às necessidades acadêmicas, financeiras e administrativas da instituição, permitindo uma gestão mais eficiente.
 
 ---
 
-## 📊 Uso para BI e IA
-O banco foi estruturado para permitir análises futuras, como:
+## 🧩 Módulos do Sistema
+
+- **Acadêmico:** controle de alunos, turmas, notas e frequência  
+- **Financeiro:** gestão de verbas, despesas e pagamentos  
+- **Recursos Humanos:** controle de funcionários e vínculos  
+
+---
+
+## 📊 BI e IA
+
+O banco foi estruturado para possibilitar análises futuras, como:
 
 - previsão de inadimplência  
 - análise de desempenho acadêmico  
@@ -41,15 +38,28 @@ O banco foi estruturado para permitir análises futuras, como:
 
 ---
 
-## 👥 Organização do Projeto
-O desenvolvimento está sendo realizado em grupo, com divisão de responsabilidades entre os integrantes.
+## 📂 Estrutura do Projeto
+
+- `docs/` → documentação do sistema  
+- `sql/` → scripts do banco de dados  
 
 ---
 
-## 🚧 Status do Projeto
-Em desenvolvimento (estrutura inicial - etapa parcial)
+## 📎 Documentação
+
+- [Requisitos](docs/requisitos.md)  
+- [Regras de Negócio](docs/regras_negocio.md)  
+- [Dicionário de Dados](docs/dicionario_dados.md)  
+- [BI e IA](docs/bi_ia.md)  
 
 ---
 
-## 📌 Observações
-Este repositório contém a base inicial do projeto, que será evoluída ao longo das próximas etapas.
+## 🗂️ Modelagem
+
+O modelo foi desenvolvido com base em um Diagrama Entidade-Relacionamento (DER), representando as entidades, atributos e relacionamentos do sistema.
+
+---
+
+## 👥 Organização
+
+O projeto foi desenvolvido em grupo, com divisão de responsabilidades entre os integrantes.
