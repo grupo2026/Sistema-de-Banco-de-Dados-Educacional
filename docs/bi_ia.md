@@ -1,5 +1,5 @@
 
-## 📊 Visão de Dados para BI e IA
+##  Visão de Dados para BI e IA
 
 | Tabela | Possível uso analítico |
 |--------|----------------------|
