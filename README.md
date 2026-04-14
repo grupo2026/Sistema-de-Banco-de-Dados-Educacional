@@ -14,13 +14,13 @@ A modelagem do banco foi desenvolvida a partir de um Diagrama Entidade-Relaciona
 
 ---
 
-## 🎯 Objetivo
+##  Objetivo
 
-Desenvolver uma modelagem de banco de dados que atenda às necessidades acadêmicas, financeiras e administrativas da instituição, permitindo uma gestão mais eficiente.
+Fazer um banco de dados pra ajudar a escola a se organizar melhor, guardando informações dos alunos, dos funcionários e da parte financeira, de um jeito mais fácil de usar no dia a dia.
 
 ---
 
-## 🧩 Módulos do Sistema
+##  Módulos do Sistema
 
 - **Acadêmico:** controle de alunos, turmas, notas e frequência  
 - **Financeiro:** gestão de verbas, despesas e pagamentos  
@@ -28,7 +28,7 @@ Desenvolver uma modelagem de banco de dados que atenda às necessidades acadêmi
 
 ---
 
-## 📊 BI e IA
+## BI e IA
 
 O banco foi estruturado para possibilitar análises futuras, como:
 
@@ -38,7 +38,7 @@ O banco foi estruturado para possibilitar análises futuras, como:
 
 ---
 
-## 📂 Estrutura do Projeto
+## Estrutura do Projeto
 
 - `docs/` → documentação do sistema  
 - `sql/` → scripts do banco de dados  
@@ -54,12 +54,12 @@ O banco foi estruturado para possibilitar análises futuras, como:
 
 ---
 
-## 🗂️ Modelagem
+## Modelagem
 
 O modelo foi desenvolvido com base em um Diagrama Entidade-Relacionamento (DER), representando as entidades, atributos e relacionamentos do sistema.
 
 ---
 
-## 👥 Organização
+## Organização
 
 O projeto foi desenvolvido em grupo, com divisão de responsabilidades entre os integrantes.
