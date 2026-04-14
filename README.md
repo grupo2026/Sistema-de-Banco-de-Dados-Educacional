@@ -14,19 +14,19 @@ A modelagem do banco foi desenvolvida a partir de um Diagrama Entidade-Relaciona
 
 ---
 
-##  Objetivo
-
-Fazer um banco de dados pra ajudar a escola a se organizar melhor, guardando informações dos alunos, dos funcionários e da parte financeira, de um jeito mais fácil de usar no dia a dia.
-
----
-
-##  Módulos do Sistema
+## Módulos do Sistema
 
 - **Acadêmico:** controle de alunos, turmas, notas e frequência  
 - **Financeiro:** gestão de verbas, despesas e pagamentos  
 - **Recursos Humanos:** controle de funcionários e vínculos  
 
 ---
+
+## Modelagem
+
+O modelo foi desenvolvido com base em um Diagrama Entidade-Relacionamento (DER), representando as entidades, atributos e relacionamentos do sistema.
+
+--- 
 
 ## BI e IA
 
@@ -45,18 +45,16 @@ O banco foi estruturado para possibilitar análises futuras, como:
 
 ---
 
-## 📎 Documentação
+## Documentação
 
-- [Requisitos](docs/requisitos.md)  
-- [Regras de Negócio](docs/regras_negocio.md)  
-- [Dicionário de Dados](docs/dicionario_dados.md)  
+- [Dicionário de Dados](docs/dicionario_dados.md)
+  
+- [Requisitos](docs/requisitos.md)
+  
+- [Regras de Negócio](docs/regras_negocio.md)
+  
 - [BI e IA](docs/bi_ia.md)  
 
----
-
-## Modelagem
-
-O modelo foi desenvolvido com base em um Diagrama Entidade-Relacionamento (DER), representando as entidades, atributos e relacionamentos do sistema.
 
 ---
 
