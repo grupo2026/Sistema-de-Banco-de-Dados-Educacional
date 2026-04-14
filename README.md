@@ -1,6 +1,6 @@
 # Sistema de Banco de Dados Educacional
 
-## 📌 Sobre o Projeto
+## Introdução
 
 Este projeto tem como objetivo modelar um sistema de banco de dados voltado para uma escola pública de ensino fundamental e médio, com base na proposta do SisGESC (Sistema de Gestão Educacional).
 
