@@ -53,7 +53,9 @@ O banco foi estruturado para possibilitar análises futuras, como:
   
 - [Regras de Negócio](docs/regras_negocio.md)
   
-- [BI e IA](docs/bi_ia.md)  
+- [BI e IA](docs/bi_ia.md)
+
+- ![DER](docs/DER.png)
 
 
 ---
