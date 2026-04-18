@@ -44,7 +44,7 @@ O banco foi estruturado para possibilitar análises futuras, como:
 
 ## Documentação
 
-- [Dicionário de Dados](docs/dicionario_dados.md)
+- [Dicionário de Dados](docs/dicionario_dados.pdf)
   
 - [Requisitos](docs/requisitos.md)
   
