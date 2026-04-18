@@ -26,13 +26,13 @@
 
  | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
-| pk_cargo | INT | - | - | Sim | Não | Não | Sim | Identificador do cargo |
+| pk_cargo | INT | - | - | Sim | Não | Não | Sim | Identificador único do cargo. |
 | nome_cargo | VARCHAR | 255 | - | Não | Não | Não | Não | Nome do cargo |
-| fk_departamento | INT | - | - | Não | Sim | Não | Não | Departamento |
-| fk_nivel | INT | - | - | Não | Sim | Não | Não | Nível hierárquico |
-| descricao_atividades | VARCHAR | 255 | - | Não | Não | Não | Não | Atividades |
-| piso_salarial | DECIMAL | 12,2 | - | Não | Não | Não | Não | Piso salarial |
-| teto_salarial | DECIMAL | 12,2 | - | Não | Não | Não | Não | Teto salarial |
+| fk_departamento | INT | - | - | Não | Sim | Não | Não |Identificador do departamento da escola. |
+| fk_nivel | INT | - | - | Não | Sim | Não | Não |Identificador dos nivéis hierárquicos da escola.|
+| descricao_atividades | VARCHAR | 255 | - | Não | Não | Não | Não |Descrição formal das atividades e funções executadas pelo colaborador no exercício do cargo. |
+| piso_salarial | DECIMAL | - | 12,2 | Não | Não | Não | Não | Valor referente ao piso salarial vigente para o respectivo cargo e jornada de trabalho. |
+| teto_salarial | DECIMAL | - | 12,2 | Não | Não | Não | Não | Valor referente ao teto salarial vigente, definindo o teto orçamentário para o respectivo cargo. |
 
 ---
 
@@ -42,17 +42,17 @@
  | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
 | pk_funcionario | INT | - | - | Sim | Não | Não | Sim | Identificador do funcionário |
-| nome_funcionario | VARCHAR | 100 | - | Não | Não | Não | Não | Nome do funcionário |
-| sobrenome | VARCHAR | 100 | - | Não | Não | Não | Não | Sobrenome |
-| cpf | CHAR | 11 | 999.999.999-99 | Não | Não | Não | Sim | CPF |
-| data_de_nascimento | DATE | - | YYYY-MM-DD | Não | Não | Não | Não | Data de nascimento |
-| sexo | ENUM | - | feminino, masculino, outro | Não | Não | Não | Não | Sexo |
-| email | VARCHAR | 100 | - | Não | Não | Não | Sim | Email |
-| telefone | VARCHAR | 20 | - | Não | Não | Não | Sim | Telefone |
-| cep | CHAR | 8 | 99999-999 | Não | Não | Não | Não | CEP |
-| numero | INT | - | - | Não | Não | Sim | Não | Número |
-| complemento | VARCHAR | 50 | - | Não | Não | Sim | Não | Complemento |
-| status | ENUM | - | ativo, desligado, atestado, licen maternidade, férias | Não | Não | Sim | Não | Status |
+| nome_funcionario | VARCHAR | 100 | - | Não | Não | Não | Não | Nome do funcionário cadastrado.|
+| sobrenome | VARCHAR | 100 | - | Não | Não | Não | Não | Sobrenome do funcionário cadastrado. |
+| cpf | CHAR | 11 | 999.999.999-99 | Não | Não | Não | Sim | CPF do funcionário cadastrado. |
+| data_de_nascimento | DATE | - | YYYY-MM-DD | Não | Não | Não | Não | Data de nascimento do funcionário cadastrado.|
+| sexo | ENUM | - | feminino, masculino, outro | Não | Não | Não | Não | Sexo da pessoa. |
+| email | VARCHAR | 100 | - | Não | Não | Não | Sim | Email do funcionário cadastrado.|
+| telefone | VARCHAR | 20 | - | Não | Não | Não | Sim | Telefone do funcionário.|
+| cep | CHAR | 8 | 99999-999 | Não | Não | Não | Não | Cep do endereço do funcionário. |
+| numero | INT | - | - | Não | Não | Sim | Não | Número do endereço do funcionário. |
+| complemento | VARCHAR | 50 | - | Não | Não | Sim | Não | Complemento do endereço do funcionário. |
+| status | ENUM | - | ativo, desligado, atestado, licen maternidade, férias | Não | Não | Sim | Não | Status do funcionário.|
 
 --- 
 
@@ -207,9 +207,28 @@
  | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
 | pk_funcionario | INT | - | - | Sim| - | Não | Sim | Identificador do funcionário. |
-| pk_cargo  | INT | 50 | -| - | Sim | - | Não | Sim | Identificador Identificador de cargos.|
+| pk_cargo  | INT | - | -| Sim| - | Não | Sim | Identificador Identificador de cargos.|
 
 --- 
+
+### Tabela:  Funcionario_Beneficios
+
+ | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
+|------|------|--------|--------|----|----|------|------|-----------|
+| pk_funcionario | INT | - | - | Sim| - | Não | Sim | Identificador do funcionário. |
+| pk_beneficios  | INT | - | -| Sim| - | Não | Sim | Identificador de beneficios.|
+
+---
+
+### Tabela:  Funcionario_Beneficios
+
+ | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
+|------|------|--------|--------|----|----|------|------|-----------|
+| pk_funcionario | INT | - | - | Sim| - | Não | Sim | Identificador do funcionário. |
+| pk_qualificacoes  | INT | - | -| Sim| - | Não | Sim | Identificador de qualificações.|
+
+---
+
 ### Tabela: N:N
 
  | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
