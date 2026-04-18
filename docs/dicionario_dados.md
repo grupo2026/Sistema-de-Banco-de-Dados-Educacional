@@ -1,30 +1,30 @@
 # Dicionário de Dados – RH 
 
- ### Tabelas e Descrição
+### Tbaela e descrição
 
-| Tabela | Descrição |
+| Nome das Tabelas RH | Descrição |
 |--------|----------|
-| Cargos_e_Funcoes | Estrutura de cargos e funções da escola |
-| Funcionario | Dados cadastrais dos funcionários |
-| Alocacao | Alocação dos funcionários |
-| Departamento | Cadastro dos departamentos |
-| Contratos | Dados contratuais dos funcionários |
-| Historico_Funcionario | Histórico de cargos e salários |
-| Qualificacoes | Formação dos funcionários |
-| Beneficios | Benefícios dos funcionários |
-| Dependentes | Dependentes dos funcionários |
-| Licencas | Licenças dos funcionários |
-| Notas_Financeiro | Registros financeiros |
-| Niveis_Hierarquicos | Níveis hierárquicos |
-| Funcionario_Cargos | Relação funcionário-cargo |
-| Funcionario_Beneficios | Relação funcionário-benefício |
-| Funcionario_Qualificacoes | Relação funcionário-qualificação |
+| Cargos_e_Funcoes | Armazena os dados referentes à estrutura de cargos e funções da escola.a |
+| Funcionario | Entidade abstrata que armazena os dados cadastrais sobre os funcionários da escola (Professores, Diretores, Etcs) |
+| Alocacao | Armazena as informações de alocação dos funcionários em seus setores e horários de trabalho |
+| Departamento | Armazena o cadastro dos departamentos e suas respectivas nomenclaturas. |
+| Contratos | Armazena os registros e condições contratuais dos funcionários. |
+| Historico_Funcionario | Registra o histórico de cargos e salários dos colaboradores. |
+| Qualificacoes | Armazena as informações sobre o histórico de capacitação dos funcionários da escola. |
+| Beneficios | Cataloga os tipos de benefícios disponíveis para os funcionários da escola. |
+| Dependentes | Armazena os dados dos dependentes vinculados aos funcionários da escola|
+| Licencas |Armazena o histórico de períodos de licença e justificativas dos funcionários da escola. |
+| Notas_Financeiro | Registra a emissão de notas fiscais e gerencia o encaminhamento para o departamento financeiro. |
+| Niveis_Hierarquicos | Armazena a classificação dos níveis de cargos e suas respectivas hierarquias na escola.|
+| Funcionario_Cargos |Tabela de associação que estabelece o relacionamento muitos-para-muitos entre funcionários e cargos, permitindo o histórico de funções na instituição. |
+| Funcionario_Beneficios | Tabela de associação que estabelece o relacionamento muitos-para-muitos entre funcionários e benefícios |
+| Funcionario_Qualificacoes | Tabela de associação que estabelece o relacionamento muitos-para-muitos entre funcionários e qualificações. |
 
 ---
 
  ### Tabela: Funcionario
 
- | Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
+ | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
 | pk_funcionario | INT | - | - | Sim | Não | Não | Sim | Identificador do funcionário |
 | nome_funcionario | VARCHAR | 100 | - | Não | Não | Não | Não | Nome do funcionário |
@@ -43,7 +43,7 @@
 
 ### Tabela: Cargos_e_Funcoes
 
-| Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
+ | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
 | pk_cargo | INT | - | - | Sim | Não | Não | Sim | Identificador do cargo |
 | nome_cargo | VARCHAR | 255 | - | Não | Não | Não | Não | Nome do cargo |
@@ -57,7 +57,7 @@
 
 ### Tabela: Alocacao
 
-| Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
+ | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
 | pk_alocacao | INT | - | - | Sim | Não | Não | Sim | Identificador |
 | fk_funcionario | INT | - | - | Não | Sim | Não | Não | Funcionário |
@@ -72,7 +72,7 @@
 
 ### Tabela: Departamento
 
-| Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
+ | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
 | pk_departamento | INT | - | - | Sim | Não | Não | Sim | Identificador |
 | nome_departamento | VARCHAR | 255 | - | Não | Não | Não | Não | Nome |
@@ -81,7 +81,7 @@
 
 ### Tabela: Contratos
 
-| Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
+ | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
 | pk_contrato | INT | - | - | Sim | Não | Não | Sim | Identificador |
 | fk_funcionario | INT | - | - | Não | Sim | Não | Não | Funcionário |
@@ -95,7 +95,7 @@
 
 ### Tabela: Historico_Funcionario
 
-| Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
+ | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
 | pk_historico | INT | - | - | Sim | Não | Não | Sim | Identificador |
 | fk_funcionario | INT | - | - | Não | Sim | Não | Não | Funcionário |
@@ -112,7 +112,7 @@
 
 ### Tabela: Qualificacoes
 
-| Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
+ | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
 | pk_qualificacoes | INT | - | - | Sim | Não | Não | Sim | Identificador |
 | fk_funcionario | INT | - | - | Não | Sim | Não | Não | Funcionário |
@@ -124,7 +124,7 @@
 
 ### Tabela: Beneficios
 
-| Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
+ | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
 | pk_beneficios | INT | - | - | Sim | Não | Não | Sim | Identificador |
 | fk_funcionario | INT | - | - | Não | Sim | Não | Não | Funcionário |
@@ -136,7 +136,7 @@
 
 ### Tabela: Beneficios
 
-| Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
+ | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
 | pk_beneficios | INT | - | - | Sim | Não | Não | Sim | Identificador |
 | fk_funcionario | INT | - | - | Não | Sim | Não | Não | Funcionário |
@@ -148,7 +148,7 @@
 
 ### Tabela: Dependentes
 
-| Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
+ | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
 | pk_dependentes | INT | - | - | Sim | Não | Não | Sim | Identificador |
 | fk_funcionario | INT | - | - | Não | Sim | Não | Não | Funcionário |
@@ -163,7 +163,7 @@
 
 ### Tabela: Licencas
 
-| Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
+ | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
 | pk_licenca | INT | - | - | Sim | Não | Não | Sim | Identificador |
 | fk_funcionario | INT | - | - | Não | Sim | Não | Não | Funcionário |
@@ -177,7 +177,7 @@
 
 ### Tabela: Notas_Financeiro
 
-| Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
+ | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
 | pk_lancamento | INT | - | - | Sim | Não | Não | Sim | Identificador |
 | fk_funcionario | INT | - | - | Não | Sim | Não | Não | Funcionário |
@@ -193,7 +193,7 @@
 
 ### Tabela: Notas_Financeiro
 
-| Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
+ | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
 | pk_nivel | INT | - | - | Sim | Não | Não | Sim | Identificador |
 | nome_nivel | VARCHAR | 50 | Júnior, Pleno, Sênior | Não | Não | Sim | Não | Nome |
@@ -202,8 +202,8 @@
 
 ### Tabela: N:N
 
-| Tabela | Campo | Tipo | PK | FK | Descrição |
-|--------|------|------|----|----|-----------|
+ | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
+|------|------|--------|--------|----|----|------|------|-----------|
 | Funcionario_Cargos | pk_funcionario | INT | Sim | Sim | Funcionário |
 | Funcionario_Cargos | pk_cargo | INT | Sim | Sim | Cargo |
 | Funcionario_Beneficios | pk_funcionario | INT | Sim | Sim | Funcionário |
