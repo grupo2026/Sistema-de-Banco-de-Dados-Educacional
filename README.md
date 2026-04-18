@@ -44,15 +44,15 @@ O banco foi estruturado para possibilitar análises futuras, como:
 
 ## Documentação
 
-- [Dicionário de Dados](docs/dicionario_dados.pdf)
+- [Dicionário de Dados](documentacao/dicionarios/dicionario_rh.pdf)
   
-- [Requisitos](docs/requisitos.md)
+- [Requisitos](documentacao/requisitos.md)
   
-- [Regras de Negócio](docs/regras_negocio.md)
+- [Regras de Negócio](documentacao/regras_negocio.md)
   
-- [BI e IA](docs/bi_ia.md)
+- [BI e IA](documentacao/bi_ia.md)
 
-- ![DER](docs/DER.png)
+- ![DER](documentacao/DER.png)
 
 
 ---
