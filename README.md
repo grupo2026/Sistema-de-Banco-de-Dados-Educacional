@@ -1,15 +1,13 @@
 # Sistema de Banco de Dados Educacional
 
 ## Introdução
-Este projeto tem como objetivo modelar um sistema de banco de dados voltado para uma escola pública de ensino fundamental e médio, com base na proposta do SisGESC (Sistema de Gestão Educacional).
 
-A proposta surgiu a partir de necessidades reais identificadas na escola analisada, que relatou dificuldades na organização e integração das informações. A ideia é tornar esse controle mais eficiente, garantindo mais segurança, praticidade e melhor acompanhamento do desempenho dos alunos.
+Nosso projeto tem como objetivo modelar um sistema voltado para uma escola pública do ensino fundamental e médio, com base na proposta do SisGESC (Sistema de Gestão Educacional). A escola que escolhemos nos informou diversas mudanças que gostariam que existissem no sistema deles, uma necessidade de organizar e integrar essas informações de forma eficiente garantindo todo o controle, segurança e praticidade relacionados aos alunos e seu desempenho escolar.
+O sistema que desenvolvemos inclui o módulo acadêmico, financeiro e de recursos humanos, que são responsáveis por gerenciar de forma integrada o ciclo de vida dos alunos, dos responsáveis e colaboradores dentro da instituição.
 
-O sistema foi estruturado em três módulos principais: acadêmico, financeiro e de recursos humanos. Esses módulos trabalham de forma integrada para gerenciar alunos, responsáveis e colaboradores dentro da instituição.
+Como diferencial do nosso projeto resolvemos implementar uma solução voltada a segurança dos alunos, por meio de cadastro de responsáveis e contatos de emergência, além de criarmos um sistema de notificação que alerta o responsável do aluno em tempo real a presença ou ausência nas aulas. Essa funcionalidade tem como principal objetivo atender a uma necessidade real que ocorre dentro das escolas públicas, considerando que muitos alunos deixam o ambiente escolar mesmo após registrarem presença.
 
-Como diferencial, o projeto propõe uma solução voltada à segurança dos alunos, com cadastro de responsáveis e contatos de emergência, além de um sistema de notificação que informa, em tempo real, a presença ou ausência nas aulas. Essa funcionalidade busca atender uma situação comum em escolas públicas, onde alunos podem sair do ambiente escolar após o registro de presença.
-
-A modelagem do banco foi desenvolvida a partir de um Diagrama Entidade-Relacionamento (DER), construído com base nas necessidades levantadas em uma entrevista com a coordenação da escola.
+Por fim, a modelagem do sistema foi desenvolvida por meio de uma Diagrama Entidade-Relacionamento (DER) com o objetivo de atender as necessidades levantadas através de uma entrevista realizada com a coordenação de uma escola pública.
 
 ---
 
