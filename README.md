@@ -67,6 +67,11 @@ O banco foi estruturado para possibilitar análises futuras, como:
 
 ---
 
+##  Tecnologias utilizadas
+- SQL
+- DER (Diagrama Entidade-Relacionamento)
+- dbdiagram.io (modelagem do banco)
+
 ## Organização
 
 O projeto foi desenvolvido em grupo, com divisão de responsabilidades entre os integrantes.
