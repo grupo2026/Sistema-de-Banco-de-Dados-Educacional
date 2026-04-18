@@ -1,6 +1,6 @@
 # Dicionário de Dados – RH 
 
-## Tabelas e Descrição
+ ### Tabelas e Descrição
 
 | Tabela | Descrição |
 |--------|----------|
@@ -22,7 +22,7 @@
 
 ---
 
- ## Tabela: Funcionario
+ ### Tabela: Funcionario
 
  | Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
@@ -39,10 +39,9 @@
 | complemento | VARCHAR | 50 | - | Não | Não | Sim | Não | Complemento |
 | status | ENUM | - | ativo, desligado, atestado, licen maternidade, férias | Não | Não | Sim | Não | Status |
 
+--- 
 
----
-
-## Tabela: Cargos_e_Funcoes
+### Tabela: Cargos_e_Funcoes
 
 | Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
@@ -56,7 +55,7 @@
 
 ---
 
-## Tabela: Alocacao
+### Tabela: Alocacao
 
 | Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
@@ -71,7 +70,7 @@
 
 ---
 
-## Tabela: Departamento
+### Tabela: Departamento
 
 | Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
@@ -80,8 +79,7 @@
 
 ---
 
-
-## Tabela: Contratos
+### Tabela: Contratos
 
 | Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
@@ -95,8 +93,7 @@
 
 ---
 
-
-## Tabela: Historico_Funcionario
+### Tabela: Historico_Funcionario
 
 | Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
@@ -113,8 +110,7 @@
 
 ---
 
-
-## Tabela: Qualificacoes
+### Tabela: Qualificacoes
 
 | Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
@@ -126,8 +122,7 @@
 
 ---
 
-
-## Tabela: Beneficios
+### Tabela: Beneficios
 
 | Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
@@ -137,16 +132,84 @@
 | valor_desconto | DECIMAL | 12,2 | - | Não | Não | Não | Não | Valor |
 | data_adesao | DATE | - | YYYY-MM-DD | Não | Não | Não | Não | Data |
 
+---
+
+### Tabela: Beneficios
+
+| Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
+|------|------|--------|--------|----|----|------|------|-----------|
+| pk_beneficios | INT | - | - | Sim | Não | Não | Sim | Identificador |
+| fk_funcionario | INT | - | - | Não | Sim | Não | Não | Funcionário |
+| tipo_beneficio | VARCHAR | 50 | VT, VR, Plano de Saúde | Não | Não | Sim | Não | Tipo |
+| valor_desconto | DECIMAL | 12,2 | - | Não | Não | Não | Não | Valor |
+| data_adesao | DATE | - | YYYY-MM-DD | Não | Não | Não | Não | Data |
 
 ---
 
+### Tabela: Dependentes
 
+| Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
+|------|------|--------|--------|----|----|------|------|-----------|
+| pk_dependentes | INT | - | - | Sim | Não | Não | Sim | Identificador |
+| fk_funcionario | INT | - | - | Não | Sim | Não | Não | Funcionário |
+| nome_dependentes | VARCHAR | 255 | - | Não | Não | Não | Não | Nome |
+| nivel_parentesco | ENUM | - | filho(a), cônjuge, pai, mãe | Não | Não | Não | Não | Parentesco |
+| data_nascimento | DATE | - | YYYY-MM-DD | Não | Não | Não | Não | Nascimento |
+| cpf | CHAR | 11 | 999.999.999-99 | Não | Não | Não | Não | CPF |
+| email | VARCHAR | 100 | - | Não | Não | Sim | Não | Email |
+| telefone | VARCHAR | 20 | - | Não | Não | Sim | Não | Telefone |
 
+---
 
+### Tabela: Licencas
 
+| Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
+|------|------|--------|--------|----|----|------|------|-----------|
+| pk_licenca | INT | - | - | Sim | Não | Não | Sim | Identificador |
+| fk_funcionario | INT | - | - | Não | Sim | Não | Não | Funcionário |
+| fk_cargo | INT | - | - | Não | Sim | Não | Não | Cargo |
+| tipo_licenca | VARCHAR | 100 | - | Não | Não | Não | Não | Tipo |
+| data_inicio | DATE | - | YYYY-MM-DD | Não | Não | Não | Não | Início |
+| data_fim | DATE | - | YYYY-MM-DD | Não | Não | Não | Não | Fim |
+| motivo_da_licenca | VARCHAR | 255 | - | Não | Não | Não | Não | Motivo |
 
+---
 
+### Tabela: Notas_Financeiro
 
+| Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
+|------|------|--------|--------|----|----|------|------|-----------|
+| pk_lancamento | INT | - | - | Sim | Não | Não | Sim | Identificador |
+| fk_funcionario | INT | - | - | Não | Sim | Não | Não | Funcionário |
+| tipo_de_evento | VARCHAR | 50 | - | Não | Não | Não | Não | Tipo |
+| data_pagamento | DATE | - | YYYY-MM-DD | Não | Não | Não | Não | Data |
+| valor_monetario | DECIMAL | 12,2 | - | Não | Não | Não | Não | Valor |
+| descontos | DECIMAL | 12,2 | - | Não | Não | Não | Não | Descontos |
+| quantidade | DECIMAL | 5,2 | - | Não | Não | Sim | Não | Quantidade |
+| motivo | VARCHAR | 255 | - | Não | Não | Não | Não | Motivo |
+| status_pag | ENUM | - | pago, cancelado, pendente | Não | Não | Não | Não | Status |
+
+---
+
+### Tabela: Notas_Financeiro
+
+| Campo | Tipo | Tamanho | Formato | PK | FK | Nulo | Único | Descrição |
+|------|------|--------|--------|----|----|------|------|-----------|
+| pk_nivel | INT | - | - | Sim | Não | Não | Sim | Identificador |
+| nome_nivel | VARCHAR | 50 | Júnior, Pleno, Sênior | Não | Não | Sim | Não | Nome |
+
+---
+
+### Tabela: N:N
+
+| Tabela | Campo | Tipo | PK | FK | Descrição |
+|--------|------|------|----|----|-----------|
+| Funcionario_Cargos | pk_funcionario | INT | Sim | Sim | Funcionário |
+| Funcionario_Cargos | pk_cargo | INT | Sim | Sim | Cargo |
+| Funcionario_Beneficios | pk_funcionario | INT | Sim | Sim | Funcionário |
+| Funcionario_Beneficios | pk_beneficios | INT | Sim | Sim | Benefício |
+| Funcionario_Qualificacoes | pk_funcionario | INT | Sim | Sim | Funcionário |
+| Funcionario_Qualificacoes | pk_qualificacoes | INT | Sim | Sim | Qualificação |
 
 
 
