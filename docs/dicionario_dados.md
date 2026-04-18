@@ -22,6 +22,21 @@
 
 ---
 
+### Tabela: Cargos_e_Funcoes
+
+ | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
+|------|------|--------|--------|----|----|------|------|-----------|
+| pk_cargo | INT | - | - | Sim | Não | Não | Sim | Identificador do cargo |
+| nome_cargo | VARCHAR | 255 | - | Não | Não | Não | Não | Nome do cargo |
+| fk_departamento | INT | - | - | Não | Sim | Não | Não | Departamento |
+| fk_nivel | INT | - | - | Não | Sim | Não | Não | Nível hierárquico |
+| descricao_atividades | VARCHAR | 255 | - | Não | Não | Não | Não | Atividades |
+| piso_salarial | DECIMAL | 12,2 | - | Não | Não | Não | Não | Piso salarial |
+| teto_salarial | DECIMAL | 12,2 | - | Não | Não | Não | Não | Teto salarial |
+
+---
+
+
  ### Tabela: Funcionario
 
  | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
@@ -40,20 +55,6 @@
 | status | ENUM | - | ativo, desligado, atestado, licen maternidade, férias | Não | Não | Sim | Não | Status |
 
 --- 
-
-### Tabela: Cargos_e_Funcoes
-
- | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
-|------|------|--------|--------|----|----|------|------|-----------|
-| pk_cargo | INT | - | - | Sim | Não | Não | Sim | Identificador do cargo |
-| nome_cargo | VARCHAR | 255 | - | Não | Não | Não | Não | Nome do cargo |
-| fk_departamento | INT | - | - | Não | Sim | Não | Não | Departamento |
-| fk_nivel | INT | - | - | Não | Sim | Não | Não | Nível hierárquico |
-| descricao_atividades | VARCHAR | 255 | - | Não | Não | Não | Não | Atividades |
-| piso_salarial | DECIMAL | 12,2 | - | Não | Não | Não | Não | Piso salarial |
-| teto_salarial | DECIMAL | 12,2 | - | Não | Não | Não | Não | Teto salarial |
-
----
 
 ### Tabela: Alocacao
 
@@ -191,7 +192,7 @@
 
 ---
 
-### Tabela: Notas_Financeiro
+### Tabela:  Niveis_Hierarquicos
 
  | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
 |------|------|--------|--------|----|----|------|------|-----------|
@@ -200,6 +201,15 @@
 
 ---
 
+
+### Tabela: Funcionario_Cargos
+
+ | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
+|------|------|--------|--------|----|----|------|------|-----------|
+| pk_funcionario | INT | - | - | Sim| - | Não | Sim | Identificador do funcionário. |
+| pk_cargo  | INT | 50 | -| - | Sim | - | Não | Sim | Identificador Identificador de cargos.|
+
+--- 
 ### Tabela: N:N
 
  | Campo | Tipo | Tamanho | Formato |Chave Primária | Chave Estrangeira |Valores Nulos |Valores Únicos | Descrição |
