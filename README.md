@@ -60,6 +60,13 @@ O banco foi estruturado para possibilitar análises futuras, como:
 
 ---
 
+
+## SQL 
+
+- [Script sql ](sql/script.sql)
+
+---
+
 ## Organização
 
 O projeto foi desenvolvido em grupo, com divisão de responsabilidades entre os integrantes.
