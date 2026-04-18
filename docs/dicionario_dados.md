@@ -1,11 +1,11 @@
 # Dicionário de Dados – RH 
 
-### Tbaela e descrição
+### Tabela e descrição
 
 | Nome das Tabelas RH | Descrição |
 |--------|----------|
 | Cargos_e_Funcoes | Armazena os dados referentes à estrutura de cargos e funções da escola.a |
-| Funcionario | Entidade abstrata que armazena os dados cadastrais sobre os funcionários da escola (Professores, Diretores, Etcs) |
+| Funcionario | Entidade abstrata que armazena os dados cadastrais sobre os funcionários da escola (Professores, Diretores, Etc) |
 | Alocacao | Armazena as informações de alocação dos funcionários em seus setores e horários de trabalho |
 | Departamento | Armazena o cadastro dos departamentos e suas respectivas nomenclaturas. |
 | Contratos | Armazena os registros e condições contratuais dos funcionários. |
