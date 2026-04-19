@@ -64,6 +64,8 @@ documentacao
 
 - ![DER](documentacao/der/der.png)
 
+-  Acesse o diagrama ER: [Clique aqui](documentos/der/der.png)
+
 - [Visualizar Diagrama Online](https://dbdiagram.io/d/69e3f8ae0aa78f6bc108e841)
 
 --- 
