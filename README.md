@@ -52,7 +52,7 @@ documentacao
   - script.sql
 ---
 
-## Documentação
+## Documentação Completa:
 
   
 - Acesse Dicionário de Dados: [Clique aqui](documentacao/dicionarios/dicionario_rh.pdf)
