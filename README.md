@@ -62,7 +62,7 @@ documentacao
   
 - [BI e IA](documentacao/bi_ia.md)
 
-- ![DER](documentos/der/der.png)
+- ![DER](documentacao/der/der.png)
 
 - [Visualizar Diagrama Online](https://dbdiagram.io/d/69e3f8ae0aa78f6bc108e841)
 
