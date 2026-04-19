@@ -61,7 +61,7 @@ documentacao
 
 - Acesse o Regras de negocio: [Clique aqui](documentacao/regras_negocio.md)
   
-- Acesse o BI e IA: [Clique aqui](documentacao/documentacao/bi_ia.md)
+- Acesse o BI e IA: [Clique aqui](documentacao/bi_ia.md)
   
 - Acesse o diagrama DER: [Clique aqui](documentacao/der/der.png)
 
