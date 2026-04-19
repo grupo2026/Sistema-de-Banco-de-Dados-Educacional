@@ -54,17 +54,16 @@ documentacao
 
 ## Documentação
 
-- [Dicionário de Dados](documentacao/dicionarios/dicionario_rh.pdf)
   
-- [Requisitos](documentacao/requisitos.md)
-  
-- [Regras de Negócio](documentacao/regras_negocio.md)
-  
-- [BI e IA](documentacao/bi_ia.md)
+- Acesse Dicionário de Dados: [Clique aqui](documentacao/dicionarios/dicionario_rh.pdf)
 
-- ![DER](documentacao/der/der.png)
+- Acesse o Requisitos: [Clique aqui](documentacao/requisitos.md)
 
--  Acesse o diagrama ER: [Clique aqui](documentacao/der/der.png)
+- Acesse o Regras de negocio: [Clique aqui](documentacao/regras_negocio.md)
+  
+- Acesse o BI e IA: [Clique aqui](documentacao/documentacao/bi_ia.md)
+  
+- Acesse o diagrama DER: [Clique aqui](documentacao/der/der.png)
 
 - [Visualizar Diagrama Online](https://dbdiagram.io/d/69e3f8ae0aa78f6bc108e841)
 
