@@ -54,6 +54,9 @@ O banco foi estruturado para possibilitar análises futuras, como:
 
 - ![DER](documentacao/der/der.pdf)
 
+- ![DER](documentos/der/der.png)
+- 
+
 
 ---
 
