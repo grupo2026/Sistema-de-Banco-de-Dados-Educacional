@@ -37,9 +37,19 @@ O banco foi estruturado para possibilitar análises futuras, como:
 
 ## Estrutura do Projeto
 
-- `docs/` → documentação do sistema  
-- `sql/` → scripts do banco de dados  
+documentacao
+  - der/
+    - der.png
 
+- dicionarios/
+  - dicionario_rh.pdf
+    
+- bi_ia.md  
+- regras_negocio.md  
+- requisitos.md  
+
+- sql
+  - script.sql
 ---
 
 ## Documentação
@@ -54,10 +64,9 @@ O banco foi estruturado para possibilitar análises futuras, como:
 
 - ![DER](documentos/der/der.png)
 
+- [Visualizar Diagrama Online](https://dbdiagram.io/d/69e3f8ae0aa78f6bc108e841)
 
-
----
-
+--- 
 
 ## SQL 
 
