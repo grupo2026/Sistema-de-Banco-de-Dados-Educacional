@@ -52,10 +52,8 @@ O banco foi estruturado para possibilitar análises futuras, como:
   
 - [BI e IA](documentacao/bi_ia.md)
 
-- ![DER](documentacao/der/der.pdf)
-
 - ![DER](documentos/der/der.png)
-- 
+
 
 
 ---
