@@ -5,9 +5,9 @@ CREATE DATABASE projeto_dados;
 USE projeto_dados; 
 USE projeto_dados; 
 
-/*///////////////// Fase 1: Preparação do Ambiente e DDL ///////////*/
-
-/*////////////// MÓDULO FINANCEIRO ////////////////////////////*/
+/* Fase 1: Preparação do Ambiente e DDL */
+ 
+ /* MÓDULO FINANCEIRO */
 
 CREATE TABLE ESCOLA ( 
 
@@ -143,7 +143,7 @@ CREATE TABLE PRESTACAO_VERBA (
   FOREIGN KEY (codigo_verba) REFERENCES VERBA(codigo_verba) 
 ); 
 
-/*/////////////// MÓDULO ACADÊMICO ///////////////////////*/
+/*MÓDULO ACADÊMICO */
 
 CREATE TABLE pessoas(
 cpf char(11) PRIMARY KEY NOT NULL,
@@ -271,7 +271,7 @@ FOREIGN KEY (cpf_responsavel) REFERENCES responsavel(cpf)
 
 CREATE TABLE notificacoes(
 pk_notificacoes int PRIMARY KEY NOT NULL,
-cpf_responsavel char(11) NOT NULL, /*ARRUMAR AQUI, NO DIAGRAMA E DICIONARIO ESTA SÓ RESPONSAVEL E É CPF_RESPONSAVEL)*/
+cpf_responsavel char(11) NOT NULL, 
 aluno varchar(20) NOT NULL,
 frequencia int NOT NULL,
 mensagem text NOT NULL,
@@ -285,7 +285,7 @@ FOREIGN KEY (frequencia) REFERENCES frequencia(pk_frequencia)
 
 DESC notificacoes;
 
-/*//////////// MÓDULO RECURSOS HUMANOS /////////////////////////*/
+/* MÓDULO RECURSOS HUMANOS */
 
 CREATE TABLE departamento(
 pk_departamento int PRIMARY KEY,
@@ -318,7 +318,7 @@ sobrenome varchar(100) NOT NULL,
 cpf char(11) UNIQUE NOT NULL,
 data_de_nascimento date NOT NULL,
 sexo ENUM('feminino', 'masculino', 'outro') 
-DEFAULT 'feminino', /*ARRUMAR DER E DICIONÁRIO DE DADOS DESSE CAMPO*/
+DEFAULT 'feminino', 
 email varchar(100) UNIQUE NOT NULL,
 telefone varchar(20) UNIQUE NOT NULL,
 cep char(8) NOT NULL,
@@ -326,7 +326,7 @@ numero int,
 complemento varchar(50),
 status_funcionario ENUM
 ('ativo','desligado','atestado','licen_maternidade', 'ferias')
-DEFAULT 'ativo' /*ARRUMAR DER E DICIONÁRIO DE DADOS DESSE CAMPO*/
+DEFAULT 'ativo' 
 );
 
 CREATE TABLE funcionario_cargos(
@@ -466,12 +466,10 @@ status_pag ENUM('pago','cancelado','pendente') DEFAULT 'pendente',
 FOREIGN KEY (fk_funcionario) REFERENCES funcionario(pk_funcionario)
 );
 
-/* //////////////////////////////////////////////////////////
-   FASE 2 - CARGA DE DADOS (OLTP)
-///////////////////////////////////////////////////////////// */
+/* FASE 2 - CARGA DE DADOS (OLTP) */
 
 
-/*/////////INSERÇÃO DE DADOS - ACADÊMICO /////////////////*/
+/*/////////INSERÇÃO DE DADOS - ACADÊMICO */
 
 INSERT IGNORE INTO pessoas 
 (cpf, sobrenome, primeiro_nome, dt_nasc, sexo, cor)
@@ -560,7 +558,7 @@ SELECT * FROM notificacoes;
 
 SELECT COUNT(*) FROM notificacoes;
 
-/*////////////////////// TESTES - SELECT ////////////////////////*/
+/* TESTES - SELECT */
 
 SELECT COUNT(*) FROM pessoas;
 SELECT COUNT(*) FROM professor;
@@ -572,7 +570,7 @@ SELECT COUNT(*) FROM responsavel;
 
 SELECT *  FROM pessoas; 
 
-/*/////////INSERÇÃO DE DADOS - FINANCEIRO /////////////////*/
+/*INSERÇÃO DE DADOS - FINANCEIRO */
 
 INSERT INTO ESCOLA (CNPJ, nome, endereco)
 VALUES ('99887766000155', 'E.E. Dona Amélia de Araújo', 'Rua das Acácias, 210')
@@ -617,7 +615,7 @@ INSERT INTO PAGAMENTO_FORNECEDOR VALUES
 ('PG102', '2024-03-05', 5000.00, 'Boleto', 'PAGO', 'NF102', '33445566000177', CURRENT_TIMESTAMP)
 ON DUPLICATE KEY UPDATE valor_pago = VALUES(valor_pago);
 
-/*////////////////////// TESTES - SELECT ////////////////////////*/
+/* TESTES - SELECT */
 
 SELECT COUNT(*) FROM ESCOLA;
 SELECT COUNT(*) FROM VERBA;
@@ -625,12 +623,10 @@ SELECT COUNT(*) FROM FORNECEDOR;
 SELECT COUNT(*) FROM DESPESA;
 SELECT COUNT(*) FROM PAGAMENTO_FORNECEDOR;
 
-/* //////////////////////////////////////////////////////
-   FASE 3 - OPERAÇÕES OLTP
-////////////////////////////////////////////////////// */
+/* FASE 3 - OPERAÇÕES OLTP*/
 
 
-/* //////////// SUBSELECT COM AGREGAÇÃO - ACEDEMICO ////////////////*/
+/*  SUBSELECT COM AGREGAÇÃO - ACEDEMICO */
 SELECT RA
 FROM aluno
 WHERE RA IN (
@@ -656,7 +652,7 @@ VALUES ('N1004', 'RA001', 'HACK01', 1, 9.5, NOW());
 COMMIT;
 SELECT * FROM nota WHERE codigo_nota = 'N1004';
 
-/*/////////SELECT SIMPLES - FINANCEIRO //////////////*/
+/*SELECT SIMPLES - FINANCEIRO */
 
 SELECT nome, CNPJ FROM ESCOLA;
 SELECT codigo_verba, valor FROM VERBA;
@@ -664,7 +660,7 @@ SELECT nome FROM FORNECEDOR;
 SELECT numero_nota_fiscal, valor FROM DESPESA;
 SELECT numero_comprovante, valor_pago FROM PAGAMENTO_FORNECEDOR;
 
-/*/////// SUBSELECT COM AGREGAÇÃO - FINANCEIRO //////////////*/
+/* SUBSELECT COM AGREGAÇÃO - FINANCEIRO */
 
 SELECT codigo_verba
 FROM VERBA
@@ -675,23 +671,21 @@ WHERE codigo_verba IN (
     HAVING SUM(valor) > 10000
 );
 
-/*/////// TRANSAÇÕES ROLLBACK - FINANCEIRO ////////*/
+/* TRANSAÇÕES ROLLBACK - FINANCEIRO */
 
 START TRANSACTION;
 INSERT INTO PAGAMENTO_FORNECEDOR VALUES ('PG_TESTE', '2024-04-01', 1000.00, 'PIX', 'PAGO', 'NF101', '22334455000166', CURRENT_TIMESTAMP);
 ROLLBACK;
 
-/*/////// TRANSAÇÕES ROLLBACK - FINANCEIRO ////////*/
+/* TRANSAÇÕES ROLLBACK - FINANCEIRO */
 
 START TRANSACTION;
 INSERT INTO PAGAMENTO_FORNECEDOR VALUES ('PG_OK_FINAL', '2024-04-01', 1000.00, 'PIX', 'PAGO', 'NF101', '22334455000166', CURRENT_TIMESTAMP);
 COMMIT;
 
-/* ////////////////////////////////////////////////////////
-   FASE 4 - MODELO OLAP (ESTRELA)
-////////////////////////////////////////////////////////// */
+/* FASE 4 - MODELO OLAP (ESTRELA) */
 
-/*////////CRIAÇÃO - ACADÊMICO ////////////*/
+/*CRIAÇÃO - ACADÊMICO */
 
 -- GRANULARIDADE: 
 
@@ -750,7 +744,7 @@ FOREIGN KEY (sk_turma) REFERENCES dim_turma(sk_turma),
 FOREIGN KEY (sk_tempo) REFERENCES dim_tempo(sk_tempo)
 );
 
-/*/////// CRIAÇÃO - FINANCEIRO /////////*/
+/* CRIAÇÃO - FINANCEIRO */
 
 -- GRANULARIDADE: 1 linha na tabela fato representa 
 --                1 pagamento por fornecedor por data.
@@ -791,11 +785,9 @@ CREATE TABLE DIM_VERBA (
 
 
 
-/* ////////////////////////////////////////////////////
-   ETL (CARGA DAS DIMENSÕES E FATO)
-////////////////////////////////////////////////////// */
+/* ETL (CARGA DAS DIMENSÕES E FATO) */
 
-/*/////// CARGA - ACADÊMICO /////////////*/
+/*CARGA - ACADÊMICO */
 
 INSERT INTO dim_aluno (
     RA,
@@ -884,7 +876,7 @@ JOIN dim_turma dtur
 JOIN dim_tempo dt 
     ON dt.data_completa = f.data_aula;
 
-/*/////// CARGA - FINANCEIRO ////////////////////*/
+/* CARGA - FINANCEIRO */
 
 -- Carga dimensão tempo
 INSERT INTO DIM_TEMPO_FINANC (data, ano, mes, nome_mes)
@@ -908,7 +900,7 @@ JOIN DIM_TEMPO_FINANC dt ON dt.data = p.data_pagamento
 JOIN DIM_FORNECEDOR df ON df.CNPJ = p.CNPJ_fornecedor
 JOIN DIM_VERBA dv ON dv.codigo_verba = d.codigo_verba;
 
-/* ////////// EXTRAÇÃO (OLTP) ////////////*/
+/*  EXTRAÇÃO (OLTP) */
 SELECT 
     f.RA_aluno,
     f.codigo_disciplina,
@@ -916,7 +908,7 @@ SELECT
     f.status_presenca
 FROM frequencia f;
 
-/*////////// LOOKUP PARA CARGA DA FATO (OLAP) /////////*/
+/*LOOKUP PARA CARGA DA FATO (OLAP) */
 
     SELECT 
     da.sk_aluno,
@@ -944,11 +936,9 @@ JOIN dim_tempo dt
     AND dt.mes = MONTH(f.data_aula)
     AND dt.ano = YEAR(f.data_aula);
     
-/* /////////////////////////////////////////////////////////
-   VALIDAÇÃO DO DW
-//////////////////////////////////////////////////////////// */
+/*  VALIDAÇÃO DO DW */
 
-/*//////////VALIDAÇÃO ACADÊMICO //////////////*/
+/*VALIDAÇÃO ACADÊMICO */
 
 -- consistência OLTP vs OLAP 
 SELECT COUNT(*) FROM frequencia;
@@ -958,14 +948,14 @@ SELECT COUNT(*) FROM fato_frequencia;
 SELECT SUM(qtd_presenca + qtd_falta + qtd_falta_justificada)
 FROM fato_frequencia;
 
-/*//////////// VALIDAÇÃO - FINANCEIRO /////////////////////*/
+/*VALIDAÇÃO - FINANCEIRO */
 SELECT SUM(valor_pago) FROM PAGAMENTO_FORNECEDOR;
 SELECT SUM(valor_total) FROM FATO_FINANCEIRO;
 
 
-/*///////////// FASE 5 - ÍNDICES E OTIMIZAÇÃO ///////////////////*/
+/*FASE 5 - ÍNDICES E OTIMIZAÇÃO */
 
-/*///////////ACADÊMICO //////////////*/
+/*ACADÊMICO */
 
 CREATE INDEX idx_fato_frequencia_aluno 
 ON fato_frequencia(sk_aluno);
@@ -995,7 +985,7 @@ GROUP BY
     dim_aluno.primeiro_nome,
     dim_aluno.sobrenome;
     
-/*//////// FINANCEIRO /////////////////*/
+/*FINANCEIRO */
 
 CREATE INDEX idx_escola_telefone_cnpj_escola ON escola_telefone(cnpj_escola);
 CREATE INDEX idx_escola_email_cnpj_escola ON escola_email(cnpj_escola);
