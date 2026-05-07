@@ -1,337 +1,347 @@
 -- SCRIPT DE RESET 
 
-DROP DATABASE IF EXISTS projeto_dados;
-CREATE DATABASE projeto_dados;
-USE projeto_dados; 
-USE projeto_dados; 
+DROP DATABASE IF EXISTS projeto_bd;
+
+CREATE DATABASE projeto_bd;
+USE projeto_bd; 
 
 /* Fase 1: Preparação do Ambiente e DDL */
- 
- /* MÓDULO FINANCEIRO */
 
-CREATE TABLE ESCOLA ( 
+/* MÓDULO FINANCEIRO */
 
-  CNPJ CHAR(14) PRIMARY KEY, 
-  nome VARCHAR(100) NOT NULL, 
-  endereco VARCHAR(255) NOT NULL, 
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
-); 
-
-CREATE TABLE ESCOLA_TELEFONE ( 
-  CNPJ_escola CHAR(14), 
-  telefone VARCHAR(20) NOT NULL, 
-
-  PRIMARY KEY (CNPJ_escola, telefone), 
-  FOREIGN KEY (CNPJ_escola) REFERENCES ESCOLA(CNPJ) 
-); 
-
-CREATE TABLE ESCOLA_EMAIL ( 
-  CNPJ_escola CHAR(14), 
-  email VARCHAR(100) NOT NULL, 
-  
-  PRIMARY KEY (CNPJ_escola, email), 
-  FOREIGN KEY (CNPJ_escola) REFERENCES ESCOLA(CNPJ) 
-); 
-
-  
-
-CREATE TABLE VERBA ( 
-  codigo_verba VARCHAR(50) PRIMARY KEY, 
-  tipo VARCHAR(50) NOT NULL, 
-  origem VARCHAR(50) NOT NULL, 
-  valor DECIMAL(12,2) NOT NULL, 
-  data_recebimento DATE NOT NULL, 
-  status_verba ENUM('ATIVA', 'ENCERRADA', 'PENDENTE') NOT NULL, 
-  CNPJ_escola CHAR(14) NOT NULL, 
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
-  
-  FOREIGN KEY (CNPJ_escola) REFERENCES ESCOLA(CNPJ) 
-); 
-
-CREATE TABLE CATEGORIA_DESPESA ( 
-  nome VARCHAR(50) PRIMARY KEY, 
-  descricao VARCHAR(255) 
+-- tabela principal das escolas
+CREATE TABLE escola (
+  cnpj CHAR(14) PRIMARY KEY, -- identificador único da escola
+  nome VARCHAR(100) NOT NULL, -- nome da escola
+  endereco VARCHAR(255) NOT NULL, -- endereço completo
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- data de criação do registro
 );
 
-  
-
-CREATE TABLE FORNECEDOR ( 
-  CNPJ CHAR(14) PRIMARY KEY, 
-  nome VARCHAR(100) NOT NULL, 
-  contato VARCHAR(100), 
-  tipo_servico VARCHAR(100), 
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
-); 
-
-  
-
-CREATE TABLE DESPESA ( 
-  numero_nota_fiscal VARCHAR(50) PRIMARY KEY, 
-  descricao VARCHAR(255), 
-  valor DECIMAL(12,2) NOT NULL, 
-  data_ DATE NOT NULL, 
-  nome_categoria VARCHAR(50) NOT NULL, 
-  codigo_verba VARCHAR(50), 
-  CNPJ_escola CHAR(14) NOT NULL, 
-  CNPJ_fornecedor CHAR(14), 
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
-
-  FOREIGN KEY (nome_categoria) REFERENCES CATEGORIA_DESPESA(nome), 
-  FOREIGN KEY (codigo_verba) REFERENCES VERBA(codigo_verba), 
-  FOREIGN KEY (CNPJ_escola) REFERENCES ESCOLA(CNPJ), 
-  FOREIGN KEY (CNPJ_fornecedor) REFERENCES FORNECEDOR(CNPJ) 
-); 
-
-  
-
-CREATE TABLE ITEM_DESPESA ( 
-  numero_nota_fiscal VARCHAR(50), 
-  descricao VARCHAR(255), 
-  quantidade INT NOT NULL, 
-  valor_unitario DECIMAL(10,2) NOT NULL, 
-
-  PRIMARY KEY (numero_nota_fiscal, descricao, valor_unitario), 
-  FOREIGN KEY (numero_nota_fiscal) REFERENCES DESPESA(numero_nota_fiscal) 
-); 
-
-  
-
-CREATE TABLE PAGAMENTO_FORNECEDOR ( 
-  numero_comprovante VARCHAR(50) PRIMARY KEY, 
-  data_pagamento DATE NOT NULL, 
-  valor_pago DECIMAL(12,2) NOT NULL, 
-  forma_pagamento VARCHAR(30) NOT NULL, 
-  status_pagto ENUM ('PAGO', 'NAO_PAGO') DEFAULT 'NAO_PAGO' NOT NULL,
-  numero_nota_fiscal VARCHAR(50), 
-  CNPJ_fornecedor CHAR(14) NOT NULL, 
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
-
-  FOREIGN KEY (numero_nota_fiscal) REFERENCES DESPESA(numero_nota_fiscal), 
-  FOREIGN KEY (CNPJ_fornecedor) REFERENCES FORNECEDOR(CNPJ) 
-); 
-  
-CREATE TABLE EMPENHO ( 
-  numero_empenho VARCHAR(50) PRIMARY KEY, 
-  data_empenho DATE NOT NULL, 
-  valor_empenhado DECIMAL(12,2) NOT NULL, 
-  codigo_verba VARCHAR(50), 
-  descricao VARCHAR(255), 
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
-
-  FOREIGN KEY (codigo_verba) REFERENCES VERBA(codigo_verba) 
+-- telefones vinculados às escolas
+CREATE TABLE escola_telefone (
+  cnpj_escola CHAR(14), -- chave da escola
+  telefone VARCHAR(20) NOT NULL, -- número de telefone
+  PRIMARY KEY (cnpj_escola, telefone),
+  FOREIGN KEY (cnpj_escola) REFERENCES escola(cnpj)
 );
 
-  
+-- e-mails vinculados às escolas
+CREATE TABLE escola_email (
+  cnpj_escola CHAR(14), -- chave da escola
+  email VARCHAR(100) NOT NULL, -- endereço de e-mail
+  PRIMARY KEY (cnpj_escola, email),
+  FOREIGN KEY (cnpj_escola) REFERENCES escola(cnpj)
+);
 
-CREATE TABLE PRESTACAO_CONTAS ( 
-  protocolo_envio VARCHAR(50) PRIMARY KEY, 
-  data_envio DATE NOT NULL, 
-  periodo_referencia DATE NOT NULL, 
-  status_prestacao ENUM ('ENVIADO', 'APROVADO', 'REJEITADO', 'PENDENTE') NOT NULL, 
-  CNPJ_escola CHAR(14) NOT NULL, 
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+-- registro de verbas recebidas pela escola
+CREATE TABLE verba (
+  codigo_verba VARCHAR(50) PRIMARY KEY, -- identificador da verba
+  tipo VARCHAR(50) NOT NULL, -- tipo da verba 
+  origem VARCHAR(50) NOT NULL, -- origem do recurso
+  valor DECIMAL(12,2) NOT NULL, -- valor recebido
+  data_recebimento DATE NOT NULL, -- data do recebimento
+  status_verba ENUM('ativa', 'encerrada', 'pendente') NOT NULL, -- status da verba
+  cnpj_escola CHAR(14) NOT NULL, -- vínculo com a escola
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (cnpj_escola) REFERENCES escola(cnpj)
+);
 
-  FOREIGN KEY (CNPJ_escola) REFERENCES ESCOLA(CNPJ) 
-); 
+-- categorias de despesas
+CREATE TABLE categoria_despesa (
+  nome VARCHAR(50) PRIMARY KEY, -- nome da categoria
+  descricao VARCHAR(255) -- descrição detalhada
+);
 
-CREATE TABLE PRESTACAO_VERBA ( 
-  protocolo_envio VARCHAR(50), 
-  codigo_verba VARCHAR(50), 
+-- fornecedores de serviços
+CREATE TABLE fornecedor (
+  cnpj CHAR(14) PRIMARY KEY, -- identificador único do fornecedor
+  nome VARCHAR(100) NOT NULL, -- nome do fornecedor
+  contato VARCHAR(100), -- pessoa de contato
+  tipo_servico VARCHAR(100), -- tipo de serviço prestado
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-  PRIMARY KEY (protocolo_envio, codigo_verba), 
-  FOREIGN KEY (protocolo_envio) REFERENCES PRESTACAO_CONTAS(protocolo_envio), 
-  FOREIGN KEY (codigo_verba) REFERENCES VERBA(codigo_verba) 
-); 
+-- despesas registradas
+CREATE TABLE despesa (
+  numero_nota_fiscal VARCHAR(50) PRIMARY KEY, -- nota fiscal da despesa
+  descricao VARCHAR(255), -- descrição da despesa
+  valor DECIMAL(12,2) NOT NULL, -- valor da despesa
+  data DATE NOT NULL, -- data da despesa
+  nome_categoria VARCHAR(50) NOT NULL, -- categoria vinculada
+  codigo_verba VARCHAR(50), -- verba utilizada
+  cnpj_escola CHAR(14) NOT NULL, -- escola vinculada
+  cnpj_fornecedor CHAR(14), -- fornecedor vinculado
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (nome_categoria) REFERENCES categoria_despesa(nome),
+  FOREIGN KEY (codigo_verba) REFERENCES verba(codigo_verba),
+  FOREIGN KEY (cnpj_escola) REFERENCES escola(cnpj),
+  FOREIGN KEY (cnpj_fornecedor) REFERENCES fornecedor(cnpj)
+);
 
-/*MÓDULO ACADÊMICO */
+-- itens detalhados da despesa
+CREATE TABLE item_despesa (
+  numero_nota_fiscal VARCHAR(50), -- nota fiscal da despesa
+  descricao VARCHAR(255), -- descrição do item
+  quantidade INT NOT NULL, -- quantidade adquirida
+  valor_unitario DECIMAL(10,2) NOT NULL, -- valor unitário
+  PRIMARY KEY (numero_nota_fiscal, descricao, valor_unitario),
+  FOREIGN KEY (numero_nota_fiscal) REFERENCES despesa(numero_nota_fiscal)
+);
 
+-- pagamentos realizados aos fornecedores
+CREATE TABLE pagamento_fornecedor (
+  numero_comprovante VARCHAR(50) PRIMARY KEY, -- comprovante do pagamento
+  data_pagamento DATE NOT NULL, -- data do pagamento
+  valor_pago DECIMAL(12,2) NOT NULL, -- valor pago
+  forma_pagamento VARCHAR(30) NOT NULL, -- forma de pagamento
+  status_pagamento ENUM('pago', 'nao_pago') DEFAULT 'nao_pago' NOT NULL, -- status do pagamento
+  numero_nota_fiscal VARCHAR(50), -- nota fiscal vinculada
+  cnpj_fornecedor CHAR(14) NOT NULL, -- fornecedor vinculado
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (numero_nota_fiscal) REFERENCES despesa(numero_nota_fiscal),
+  FOREIGN KEY (cnpj_fornecedor) REFERENCES fornecedor(cnpj)
+);
+
+-- empenhos vinculados às verbas
+CREATE TABLE empenho (
+  numero_empenho VARCHAR(50) PRIMARY KEY, -- número do empenho
+  data_empenho DATE NOT NULL, -- data do empenho
+  valor_empenhado DECIMAL(12,2) NOT NULL, -- valor empenhado
+  codigo_verba VARCHAR(50), -- verba vinculada
+  descricao VARCHAR(255), -- descrição do empenho
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (codigo_verba) REFERENCES verba(codigo_verba)
+);
+
+-- prestação de contas das escolas
+CREATE TABLE prestacao_contas (
+  protocolo_envio VARCHAR(50) PRIMARY KEY, -- protocolo da prestação
+  data_envio DATE NOT NULL, -- data do envio
+  periodo_referencia DATE NOT NULL, -- período de referência
+  status_prestacao ENUM('enviado', 'aprovado', 'rejeitado', 'pendente') NOT NULL, -- status da prestação
+  cnpj_escola CHAR(14) NOT NULL, -- escola vinculada
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (cnpj_escola) REFERENCES escola(cnpj)
+);
+
+-- vinculação entre prestação de contas e verbas
+CREATE TABLE prestacao_verba (
+  protocolo_envio VARCHAR(50), -- protocolo da prestação
+  codigo_verba VARCHAR(50), -- verba vinculada
+  PRIMARY KEY (protocolo_envio, codigo_verba),
+  FOREIGN KEY (protocolo_envio) REFERENCES prestacao_contas(protocolo_envio),
+  FOREIGN KEY (codigo_verba) REFERENCES verba(codigo_verba)
+);
+
+/* MÓDULO ACADÊMICO */
+
+-- dados das pessoas cadastradas no sistema
 CREATE TABLE pessoas(
-cpf char(11) PRIMARY KEY NOT NULL,
-sobrenome varchar(20) NOT NULL,
-primeiro_nome varchar(50) NOT NULL,
-dt_nasc date NOT NULL,
-sexo ENUM('Feminino', 'Masculino', 'Outro') DEFAULT 'Outro',
-cor ENUM('Amarela', 'Branca', 'Indigena', 'Negra', 'Parda', 'Outro') DEFAULT 'Outro'
+cpf char(11) PRIMARY KEY NOT NULL, -- cpf da pessoa
+sobrenome varchar(20) NOT NULL, -- sobrenome
+primeiro_nome varchar(50) NOT NULL, -- primeiro nome
+dt_nasc date NOT NULL, -- data de nascimento
+sexo ENUM('Feminino', 'Masculino', 'Outro') DEFAULT 'Outro', -- sexo
+cor ENUM('Amarela', 'Branca', 'Indigena', 'Negra', 'Parda', 'Outro') DEFAULT 'Outro' -- cor
 );
 
+-- tabela de endereços por cep
 CREATE TABLE logradouro_cep(
-cep char(8) PRIMARY KEY NOT NULL,
-logradouro varchar(100) NOT NULL,
-bairro varchar(50) NOT NULL,
-cidade varchar(50) NOT NULL,
+cep char(8) PRIMARY KEY NOT NULL, -- cep
+logradouro varchar(100) NOT NULL, -- rua ou avenida
+bairro varchar(50) NOT NULL, -- bairro
+cidade varchar(50) NOT NULL, -- cidade
 estado ENUM(
     'AC','AL','AP','AM','BA','CE','DF','ES','GO',
     'MA','MT','MS','MG','PA','PB','PR','PE','PI',
-    'RJ','RN','RS','RO','RR','SC','SP','SE','TO') NOT NULL
+    'RJ','RN','RS','RO','RR','SC','SP','SE','TO') NOT NULL -- estado
 );
 
+-- endereço vinculado à pessoa
 CREATE TABLE endereco(
-pk_endereco int PRIMARY KEY,
-cpf_pessoa char(11) NOT NULL,
-cep char(8),
-numero char(10),
+pk_endereco int PRIMARY KEY, -- código do endereço
+cpf_pessoa char(11) NOT NULL, -- cpf da pessoa
+cep char(8), -- cep do endereço
+numero char(10), -- número da residência
 
 FOREIGN KEY (cpf_pessoa) REFERENCES pessoas(cpf),
 FOREIGN KEY (cep) REFERENCES logradouro_cep(cep)
 );
 
+-- dados dos alunos
 CREATE TABLE aluno(
-    RA varchar(20) PRIMARY KEY NOT NULL,
-    cpf char(11),
+    ra varchar(20) PRIMARY KEY NOT NULL, -- registro do aluno
+    cpf char(11), -- cpf do aluno
     FOREIGN KEY (cpf) REFERENCES pessoas(cpf)
 );
 
+-- dados dos professores
 CREATE TABLE professor(
-cpf char(11) PRIMARY KEY NOT NULL,
+cpf char(11) PRIMARY KEY NOT NULL, -- cpf do professor
 
 FOREIGN KEY (cpf) REFERENCES pessoas(cpf)
 );
 
+-- disciplinas da escola
 CREATE TABLE disciplina (
-codigo_disciplina varchar(20) PRIMARY KEY,
-nome_disciplina varchar(100) NOT NULL,
-carga_horaria int NOT NULL
+codigo_disciplina varchar(20) PRIMARY KEY, -- código da disciplina
+nome_disciplina varchar(100) NOT NULL, -- nome da disciplina
+carga_horaria int NOT NULL -- carga horária
 );
 
+-- relação entre professor e disciplina
 CREATE TABLE professor_disciplina(
-pk_prof_disc int PRIMARY KEY,
-cpf char(11) NOT NULL,
-codigo_disciplina varchar(20) NOT NULL,
+pk_prof_disc int PRIMARY KEY, -- código da relação
+cpf char(11) NOT NULL, -- cpf do professor
+codigo_disciplina varchar(20) NOT NULL, -- código da disciplina
 
 FOREIGN KEY (cpf) REFERENCES professor(cpf),
 FOREIGN KEY (codigo_disciplina) REFERENCES disciplina(codigo_disciplina)
 );
 
+-- matrícula do aluno na disciplina
 CREATE TABLE matricula(
-    codigo_matricula varchar(20) PRIMARY KEY,
-    codigo_disciplina varchar(20) NOT NULL,
-    RA varchar(20) NOT NULL,
-    turma varchar(50) NOT NULL,
-    ano_letivo int NOT NULL,
-    turno ENUM ('Manhã', 'Tarde', 'Noite') DEFAULT 'Manhã',
-    data_matricula date NOT NULL,
-    status_matricula ENUM ('Ativo', 'Inativo', 'Trancado', 'Desistente') DEFAULT 'Ativo',
+    codigo_matricula varchar(20) PRIMARY KEY, -- código da matrícula
+    codigo_disciplina varchar(20) NOT NULL, -- disciplina matriculada
+    ra varchar(20) NOT NULL, -- aluno matriculado
+    turma varchar(50) NOT NULL, -- turma do aluno
+    ano_letivo int NOT NULL, -- ano letivo
+    turno ENUM ('Manhã', 'Tarde', 'Noite') DEFAULT 'Manhã', -- turno
+    data_matricula date NOT NULL, -- data da matrícula
+    status_matricula ENUM ('Ativo', 'Inativo', 'Trancado', 'Desistente') DEFAULT 'Ativo', -- situação da matrícula
 
     FOREIGN KEY (codigo_disciplina) REFERENCES disciplina(codigo_disciplina),
-    FOREIGN KEY (RA) REFERENCES aluno(RA)
+    FOREIGN KEY (ra) REFERENCES aluno(ra)
 );
 
+-- notas dos alunos
 CREATE TABLE nota(
-codigo_nota varchar(20) PRIMARY KEY NOT NULL,
-RA varchar(20) NOT NULL,
-codigo_disciplina varchar(20) NOT NULL,
-bimestre int NOT NULL,
-nota decimal(4,2) NOT NULL,
-data_lancamento timestamp,
+codigo_nota varchar(20) PRIMARY KEY NOT NULL, -- código da nota
+ra varchar(20) NOT NULL, -- aluno da nota
+codigo_disciplina varchar(20) NOT NULL, -- disciplina da nota
+bimestre int NOT NULL, -- bimestre
+nota decimal(4,2) NOT NULL, -- valor da nota
+data_lancamento timestamp, -- data do lançamento
 
 FOREIGN KEY (codigo_disciplina) REFERENCES disciplina(codigo_disciplina),
-FOREIGN KEY (RA) REFERENCES aluno(RA)
+FOREIGN KEY (ra) REFERENCES aluno(ra)
 );
 
+-- frequência dos alunos
 CREATE TABLE frequencia(
-pk_frequencia int PRIMARY KEY,
-RA_aluno varchar(20) NOT NULL,
-codigo_disciplina varchar(20) NOT NULL,
-data_aula date NOT NULL,
-status_presenca ENUM ('Presente', 'Ausente', 'Justificada') DEFAULT 'Ausente',
+pk_frequencia int PRIMARY KEY, -- código da frequência
+ra_aluno varchar(20) NOT NULL, -- aluno da frequência
+codigo_disciplina varchar(20) NOT NULL, -- disciplina da aula
+data_aula date NOT NULL, -- data da aula
+status_presenca ENUM ('Presente', 'Ausente', 'Justificada') DEFAULT 'Ausente', -- presença do aluno
 
 FOREIGN KEY (codigo_disciplina) REFERENCES disciplina(codigo_disciplina),
-FOREIGN KEY (RA_aluno) REFERENCES aluno(RA)
+FOREIGN KEY (ra_aluno) REFERENCES aluno(ra)
 );
 
+-- responsáveis cadastrados
 CREATE TABLE responsavel(
-cpf char(11) PRIMARY KEY NOT NULL,
+cpf char(11) PRIMARY KEY NOT NULL, -- cpf do responsável
 
 FOREIGN KEY (cpf) REFERENCES pessoas(cpf)
 );
 
+-- telefones dos responsáveis
 CREATE TABLE telefone_responsavel(
-telefone varchar(20) PRIMARY KEY,
-cpf_responsavel char(11) NOT NULL,
+telefone varchar(20) PRIMARY KEY, -- telefone do responsável
+cpf_responsavel char(11) NOT NULL, -- cpf do responsável
 
 FOREIGN KEY (cpf_responsavel) REFERENCES responsavel(cpf)
 );
 
+-- e-mails dos responsáveis
 CREATE TABLE email_responsavel(
-email varchar(255) PRIMARY KEY,
-cpf_responsavel char(11) NOT NULL,
+email varchar(255) PRIMARY KEY, -- e-mail do responsável
+cpf_responsavel char(11) NOT NULL, -- cpf do responsável
 
 FOREIGN KEY (cpf_responsavel) REFERENCES responsavel(cpf)
 );
 
+-- relação entre responsável e aluno
 CREATE TABLE responsavel_aluno(
-pk_responsavel_aluno int PRIMARY KEY NOT NULL,
-RA_aluno varchar(20) NOT NULL,
-cpf_responsavel char(11) NOT NULL,
-parentesco varchar(50),
+pk_responsavel_aluno int PRIMARY KEY NOT NULL, -- código da relação
+ra_aluno varchar(20) NOT NULL, -- aluno vinculado
+cpf_responsavel char(11) NOT NULL, -- responsável vinculado
+parentesco varchar(50), -- parentesco
 
-FOREIGN KEY (RA_aluno) REFERENCES aluno(RA),
+FOREIGN KEY (ra_aluno) REFERENCES aluno(ra),
 FOREIGN KEY (cpf_responsavel) REFERENCES responsavel(cpf)
 );
 
+-- notificações enviadas aos responsáveis
 CREATE TABLE notificacoes(
-pk_notificacoes int PRIMARY KEY NOT NULL,
-cpf_responsavel char(11) NOT NULL, 
-aluno varchar(20) NOT NULL,
-frequencia int NOT NULL,
-mensagem text NOT NULL,
-data_envio timestamp,
-status_envio ENUM('Pendente', 'Enviado','Falha') DEFAULT 'Pendente',
+pk_notificacoes int PRIMARY KEY NOT NULL, -- código da notificação
+cpf_responsavel char(11) NOT NULL, -- cpf do responsável do aluno
+aluno varchar(20) NOT NULL, -- aluno relacionado
+frequencia int NOT NULL, -- frequência relacionada
+mensagem text NOT NULL, -- mensagem enviada
+data_envio timestamp, -- data do envio
+status_envio ENUM('Pendente', 'Enviado','Falha') DEFAULT 'Pendente', -- status do envio
 
 FOREIGN KEY (cpf_responsavel) REFERENCES responsavel(cpf),
-FOREIGN KEY (aluno) REFERENCES aluno(RA),
+FOREIGN KEY (aluno) REFERENCES aluno(ra),
 FOREIGN KEY (frequencia) REFERENCES frequencia(pk_frequencia)
 );
 
 DESC notificacoes;
 
-/* MÓDULO RECURSOS HUMANOS */
+/*MÓDULO RECURSOS HUMANOS */
 
+-- departamentos da escola
 CREATE TABLE departamento(
-pk_departamento int PRIMARY KEY,
-nome_departamento varchar(255)
+pk_departamento int PRIMARY KEY, -- código do departamento
+nome_departamento varchar(255) -- nome do departamento
 );
 
-
+-- níveis hierárquicos dos cargos
 CREATE TABLE niveis_hierarquicos(
-pk_nivel int PRIMARY KEY,
-nome_nivel varchar(50)
+pk_nivel int PRIMARY KEY, -- código do nível
+nome_nivel varchar(50) -- nome do nível
 );
 
+-- cargos e funções dos funcionários
 CREATE TABLE cargos_e_funcoes(
-pk_cargo int PRIMARY KEY,
-nome_cargo varchar(255) NOT NULL,
-fk_departamento int NOT NULL,
-fk_nivel int,
-descricao_atividades varchar(255) NOT NULL,
-piso_salarial decimal(12,2) NOT NULL,
-teto_salarial decimal(12,2) NOT NULL,
+pk_cargo int PRIMARY KEY, -- código do cargo
+nome_cargo varchar(255) NOT NULL, -- nome do cargo
+fk_departamento int NOT NULL, -- departamento do cargo
+fk_nivel int, -- nível hierárquico do cargo
+descricao_atividades varchar(255) NOT NULL, -- atividades do cargo
+piso_salarial decimal(12,2) NOT NULL, -- salário mínimo do cargo
+teto_salarial decimal(12,2) NOT NULL, -- salário máximo do cargo
 
 FOREIGN KEY (fk_departamento) REFERENCES departamento(pk_departamento),
 FOREIGN KEY (fk_nivel) REFERENCES niveis_hierarquicos(pk_nivel)
 );
 
+-- dados dos funcionários
 CREATE TABLE funcionario(
-pk_funcionario int PRIMARY KEY,
-nome_funcionario varchar (100) NOT NULL,
-sobrenome varchar(100) NOT NULL,
-cpf char(11) UNIQUE NOT NULL,
-data_de_nascimento date NOT NULL,
+pk_funcionario int PRIMARY KEY, -- código do funcionário
+nome_funcionario varchar (100) NOT NULL, -- nome do funcionário
+sobrenome varchar(100) NOT NULL, -- sobrenome do funcionário
+cpf char(11) UNIQUE NOT NULL, -- cpf do funcionário
+data_de_nascimento date NOT NULL, -- data de nascimento
 sexo ENUM('feminino', 'masculino', 'outro') 
 DEFAULT 'feminino', 
-email varchar(100) UNIQUE NOT NULL,
-telefone varchar(20) UNIQUE NOT NULL,
-cep char(8) NOT NULL,
-numero int,
-complemento varchar(50),
+email varchar(100) UNIQUE NOT NULL, -- e-mail do funcionário
+telefone varchar(20) UNIQUE NOT NULL, -- telefone do funcionário
+cep char(8) NOT NULL, -- cep do endereço
+numero int, -- número do endereço
+complemento varchar(50), -- complemento do endereço
 status_funcionario ENUM
 ('ativo','desligado','atestado','licen_maternidade', 'ferias')
-DEFAULT 'ativo' 
 );
 
+
+
+-- relação entre funcionários e cargos
 CREATE TABLE funcionario_cargos(
-pk_funcionario  int NOT NULL,
-pk_cargo int NOT NULL,
+pk_funcionario  int NOT NULL, -- funcionário vinculado
+pk_cargo int NOT NULL, -- cargo vinculado
 
 PRIMARY KEY (pk_funcionario, pk_cargo),
 
@@ -339,19 +349,21 @@ FOREIGN KEY (pk_funcionario) REFERENCES funcionario(pk_funcionario),
 FOREIGN KEY (pk_cargo) REFERENCES cargos_e_funcoes(pk_cargo)
 );
 
+-- benefícios dos funcionários
 CREATE TABLE beneficios(
-pk_beneficio int PRIMARY KEY,
-pk_funcionario int NOT NULL,
-tipo_beneficio varchar (50) NOT NULL, 
-valor_desconto decimal(12,2) NOT NULL,
-data_adesao date NOT NULL,
+pk_beneficio int PRIMARY KEY, -- código do benefício
+pk_funcionario int NOT NULL, -- funcionário vinculado
+tipo_beneficio varchar (50) NOT NULL, -- tipo de benefício
+valor_desconto decimal(12,2) NOT NULL, -- valor do desconto
+data_adesao date NOT NULL, -- data de adesão
 
 FOREIGN KEY (pk_funcionario) REFERENCES funcionario(pk_funcionario)
 );
 
+-- relação entre funcionários e benefícios
 CREATE TABLE funcionario_beneficios(
-pk_funcionario int NOT NULL,
-pk_beneficios int NOT NULL,
+pk_funcionario int NOT NULL, -- funcionário vinculado
+pk_beneficios int NOT NULL, -- benefício vinculado
 
 PRIMARY KEY (pk_funcionario, pk_beneficios),
 
@@ -359,19 +371,21 @@ FOREIGN KEY (pk_funcionario) REFERENCES funcionario(pk_funcionario),
 FOREIGN KEY (pk_beneficios) REFERENCES beneficios(pk_beneficio)
 );
 
+-- qualificações dos funcionários
 CREATE TABLE qualificacoes(
-pk_qualificacoes int PRIMARY KEY,
-fk_funcionario int NOT NULL,
-tipo_formacao varchar(100) NOT NULL,
-instituicao varchar(100) NOT NULL,
-ano_conclusao date NOT NULL,
+pk_qualificacoes int PRIMARY KEY, -- código da qualificação
+fk_funcionario int NOT NULL, -- funcionário vinculado
+tipo_formacao varchar(100) NOT NULL, -- tipo de formação
+instituicao varchar(100) NOT NULL, -- instituição de ensino
+ano_conclusao date NOT NULL, -- ano de conclusão
 
 FOREIGN KEY (fk_funcionario) REFERENCES funcionario(pk_funcionario)
 );
 
+-- relação entre funcionários e qualificações
 CREATE TABLE funcionario_qualificacoes(
-pk_funcionarios int NOT NULL,
-pk_qualificacoes int NOT NULL,
+pk_funcionarios int NOT NULL, -- funcionário vinculado
+pk_qualificacoes int NOT NULL, -- qualificação vinculada
 
 PRIMARY KEY (pk_funcionarios, pk_qualificacoes),
 
@@ -379,28 +393,30 @@ FOREIGN KEY (pk_funcionarios) REFERENCES funcionario(pk_funcionario),
 FOREIGN KEY (pk_qualificacoes) REFERENCES qualificacoes(pk_qualificacoes)
 );
 
+-- alocação do funcionário no cargo e departamento
 CREATE TABLE alocacao(
-  pk_alocacao int PRIMARY KEY,
-  fk_funcionario  int NOT NULL,
-  fk_cargo int NOT NULL,
-  fk_departamento int NOT NULL, 
-  data_inicio date NOT NULL,
-  data_fim date,
-  horas_semanais  decimal(5,2) NOT NULL,
-  status_cargo ENUM ('ativo', 'encerrado_na_funcao') DEFAULT 'ativo',
+  pk_alocacao int PRIMARY KEY, -- código da alocação
+  fk_funcionario  int NOT NULL, -- funcionário alocado
+  fk_cargo int NOT NULL, -- cargo da alocação
+  fk_departamento int NOT NULL, -- departamento da alocação
+  data_inicio date NOT NULL, -- data de início
+  data_fim date, -- data de fim
+  horas_semanais  decimal(5,2) NOT NULL, -- horas semanais
+  status_cargo ENUM ('ativo', 'encerrado_na_funcao') DEFAULT 'ativo', -- status da função
   
   FOREIGN KEY (fk_funcionario) REFERENCES funcionario(pk_funcionario),
   FOREIGN KEY (fk_cargo) REFERENCES cargos_e_funcoes(pk_cargo),
   FOREIGN KEY (fk_departamento) REFERENCES departamento(pk_departamento)
 );
 
+-- contratos dos funcionários
 CREATE TABLE contratos(
-pk_contrato int PRIMARY KEY,
-fk_funcionario int NOT NULL,
-fk_cargo int NOT NULL,
-fk_nivel int NOT NULL, 
-data_admissao date NOT NULL,
-salario_base   decimal(12,2) NOT NULL,
+pk_contrato int PRIMARY KEY, -- código do contrato
+fk_funcionario int NOT NULL, -- funcionário do contrato
+fk_cargo int NOT NULL, -- cargo do contrato
+fk_nivel int NOT NULL, -- nível do contrato
+data_admissao date NOT NULL, -- data de admissão
+salario_base   decimal(12,2) NOT NULL, -- salário base
 status_contratos ENUM('ativo','inativo')
 DEFAULT 'ativo', /*ARRUMAR DER E DICIONÁRIO DE DADOS DESSE CAMPO*/
 
@@ -409,67 +425,72 @@ FOREIGN KEY (fk_cargo) REFERENCES cargos_e_funcoes(pk_cargo),
 FOREIGN KEY (fk_nivel) REFERENCES niveis_hierarquicos(pk_nivel)
 );
 
+-- histórico de alterações do funcionário
 CREATE TABLE historico_funcionario (
-pk_historico int PRIMARY KEY,
-fk_funcionario int NOT NULL, 
-fk_contrato int NOT NULL,
-fk_nivel int,
-nome_cargo_anterior varchar(255) NOT NULL,
-nome_cargo_novo varchar(255) NOT NULL,
-salario_anterior decimal(12,2) NOT NULL,
-salario_novo decimal(12,2) NOT NULL,
-data_alteracao date,
-motivo varchar(255) NOT NULL,
+pk_historico int PRIMARY KEY, -- código do histórico
+fk_funcionario int NOT NULL, -- funcionário vinculado
+fk_contrato int NOT NULL, -- contrato vinculado
+fk_nivel int, -- nível vinculado
+nome_cargo_anterior varchar(255) NOT NULL, -- cargo anterior
+nome_cargo_novo varchar(255) NOT NULL, -- cargo novo
+salario_anterior decimal(12,2) NOT NULL, -- salário anterior
+salario_novo decimal(12,2) NOT NULL, -- salário novo
+data_alteracao date, -- data da alteração
+motivo varchar(255) NOT NULL, -- motivo da alteração
 
 FOREIGN KEY (fk_funcionario) REFERENCES funcionario(pk_funcionario),
 FOREIGN KEY (fk_contrato) REFERENCES contratos(pk_contrato),
 FOREIGN KEY (fk_nivel) REFERENCES niveis_hierarquicos(pk_nivel)
 );
 
+-- dependentes dos funcionários
 CREATE TABLE dependentes(
-pk_dependentes int PRIMARY KEY,
-fk_funcionario int NOT NULL,
-nome_dependentes varchar(255) NOT NULL,
-nivel_parentesco ENUM('filho','cônjuge','pai','mãe') DEFAULT 'filho',
-data_nascimento  date NOT NULL,
-cpf char(11) NOT NULL,
-email varchar(100),
-telefone varchar(20),
+pk_dependentes int PRIMARY KEY, -- código do dependente
+fk_funcionario int NOT NULL, -- funcionário responsável
+nome_dependentes varchar(255) NOT NULL, -- nome do dependente
+nivel_parentesco ENUM('filho','cônjuge','pai','mãe') DEFAULT 'filho', -- parentesco
+data_nascimento  date NOT NULL, -- data de nascimento
+cpf char(11) NOT NULL, -- cpf do dependente
+email varchar(100), -- e-mail do dependente
+telefone varchar(20), -- telefone do dependente
 
 FOREIGN KEY (fk_funcionario) REFERENCES funcionario(pk_funcionario)
 );
 
+-- licenças dos funcionários
 CREATE TABLE licencas (
-pk_licenca int PRIMARY KEY,
-fk_funcionario int NOT NULL,
-fk_cargo int NOT NULL,
-tipo_licenca varchar(100) NOT NULL,
-data_inicio date NOT NULL,
-data_fim date NOT NULL,
-motivo_da_licenca varchar(255) NOT NULL,
+pk_licenca int PRIMARY KEY, -- código da licença
+fk_funcionario int NOT NULL, -- funcionário vinculado
+fk_cargo int NOT NULL, -- cargo vinculado
+tipo_licenca varchar(100) NOT NULL, -- tipo de licença
+data_inicio date NOT NULL, -- data de início
+data_fim date NOT NULL, -- data de fim
+motivo_da_licenca varchar(255) NOT NULL, -- motivo da licença
 
 FOREIGN KEY (fk_funcionario) REFERENCES funcionario(pk_funcionario),
 FOREIGN KEY (fk_cargo) REFERENCES cargos_e_funcoes(pk_cargo)
 );
 
+-- lançamentos financeiros dos funcionários
 CREATE TABLE notas_financeiro (
-pk_lancamento int PRIMARY KEY,
-fk_funcionario int NOT NULL,
-tipo_de_evento varchar(50) NOT NULL,
-data_pagamento date NOT NULL,
-valor_monetario decimal(12,2) NOT NULL,
-descontos decimal(12,2) NOT NULL,
-quantidade decimal(5,2),
-motivo varchar(255) NOT NULL,
-status_pag ENUM('pago','cancelado','pendente') DEFAULT 'pendente',
+pk_lancamento int PRIMARY KEY, -- código do lançamento
+fk_funcionario int NOT NULL, -- funcionário vinculado
+tipo_de_evento varchar(50) NOT NULL, -- tipo do evento
+data_pagamento date NOT NULL, -- data do pagamento
+valor_monetario decimal(12,2) NOT NULL, -- valor monetário
+descontos decimal(12,2) NOT NULL, -- valor dos descontos
+quantidade decimal(5,2), -- quantidade
+motivo varchar(255) NOT NULL, -- motivo do lançamento
+status_pag ENUM('pago','cancelado','pendente') DEFAULT 'pendente', -- status do pagamento
 
 FOREIGN KEY (fk_funcionario) REFERENCES funcionario(pk_funcionario)
 );
 
-/* FASE 2 - CARGA DE DADOS (OLTP) */
+
+/* FASE 2 - CARGA DE DADOS (OLTP)*/
 
 
-/*/////////INSERÇÃO DE DADOS - ACADÊMICO */
+/*INSERÇÃO DE DADOS - ACADÊMICO */
 
 INSERT IGNORE INTO pessoas 
 (cpf, sobrenome, primeiro_nome, dt_nasc, sexo, cor)
@@ -483,7 +504,7 @@ VALUES
 SELECT COUNT(*) FROM pessoas;
 
 
-INSERT IGNORE INTO aluno (RA, cpf)
+INSERT IGNORE INTO aluno (ra, cpf)
 VALUES
 ('RA001', '10000000001'), -- Elliot
 ('RA002', '10000000002'), -- Angela
@@ -521,7 +542,7 @@ SELECT COUNT(*) FROM matricula;
 
 
 INSERT IGNORE INTO nota
-(codigo_nota, RA, codigo_disciplina, bimestre, nota, data_lancamento)
+(codigo_nota, ra, codigo_disciplina, bimestre, nota, data_lancamento)
 VALUES
 ('N001', 'RA001', 'HACK01', 1, 9.8, NOW()), -- Elliot hacker nível Deus
 ('N002', 'RA002', 'HACK02', 1, 8.5, NOW()),
@@ -623,23 +644,56 @@ SELECT COUNT(*) FROM FORNECEDOR;
 SELECT COUNT(*) FROM DESPESA;
 SELECT COUNT(*) FROM PAGAMENTO_FORNECEDOR;
 
-/* FASE 3 - OPERAÇÕES OLTP*/
+/* INSERÇÃO DE DADOS - RH */
+INSERT INTO DEPARTAMENTO 
+(pk_departamento, nome_departamento)
+VALUES(1, 'Tecnologia'),(2, 'Recursos Humanos')
+ON DUPLICATE KEY UPDATE nome_departamento = VALUES(nome_departamento);
 
+INSERT INTO NIVEIS_HIERARQUICOS 
+(pk_nivel, nome_nivel)
+VALUES(1, 'Júnior'),(2, 'Pleno'),
+ (3, 'Sênior')
+ON DUPLICATE KEY UPDATE nome_nivel = VALUES(nome_nivel);
 
-/*  SUBSELECT COM AGREGAÇÃO - ACEDEMICO */
-SELECT RA
+INSERT INTO CARGOS_E_FUNCOES 
+(pk_cargo, nome_cargo, fk_departamento, fk_nivel, descricao_atividades, piso_salarial, teto_salarial)
+VALUES(1, 'Desenvolvedor', 1, 2, 'Desenvolvimento de sistemas', 3000, 8000),(2, 'Analista RH', 2, 2, 'Gestão de pessoas', 2500, 6000)
+ON DUPLICATE KEY UPDATE piso_salarial = VALUES(piso_salarial);
+
+INSERT INTO FUNCIONARIO 
+(pk_funcionario, nome_funcionario, sobrenome, cpf, data_de_nascimento, email, telefone, cep, data_criacao)
+VALUES(1, 'Carlos', 'Silva', '12345678901', '1990-05-10', 'carlos@email.com', '11999999999', '01001000', CURRENT_TIMESTAMP),
+    (2, 'Ana', 'Souza', '98765432100', '1992-08-15', 'ana@email.com', '11988888888', '02002000', CURRENT_TIMESTAMP)
+ON DUPLICATE KEY UPDATE nome_funcionario = VALUES(nome_funcionario);
+
+INSERT INTO CONTRATOS 
+(pk_contrato, fk_funcionario, fk_cargo, fk_nivel, data_admissao, salario_base)
+VALUES(1, 1, 1, 2, '2023-01-10', 5000), (2, 2, 2, 2, '2023-03-15', 4000)
+ON DUPLICATE KEY UPDATE salario_base = VALUES(salario_base);
+
+/* TESTES - SELECT */
+SELECT COUNT(*) FROM FUNCIONARIO;
+SELECT COUNT(*) FROM DEPARTAMENTO;
+SELECT COUNT(*) FROM CARGOS_E_FUNCOES;
+SELECT COUNT(*) FROM CONTRATOS;
+
+/* FASE 3 - OPERAÇÕES OLTP */
+
+/* SUBSELECT COM AGREGAÇÃO - ACADEMICO */
+SELECT ra
 FROM aluno
-WHERE RA IN (
-    SELECT RA
+WHERE ra IN (
+    SELECT ra
     FROM nota
-    GROUP BY RA
+    GROUP BY ra
     HAVING AVG(nota) >= 9
 );
 
 /* ///////////// TRANSAÇÃO COM ROLLBACK /////////////////// */
 
 START TRANSACTION;
-INSERT INTO nota (codigo_nota, RA, codigo_disciplina, bimestre, nota, data_lancamento)
+INSERT INTO nota (codigo_nota, ra, codigo_disciplina, bimestre, nota, data_lancamento)
 VALUES ('N997', 'RA001', 'HACK01', 1, 7.0, NOW());
 ROLLBACK;
 SELECT * FROM nota WHERE codigo_nota = 'N997';
@@ -647,7 +701,7 @@ SELECT * FROM nota WHERE codigo_nota = 'N997';
 /* ////////////// TRANSAÇÃO COM COMMIT //////////////// */
 
 START TRANSACTION;
-INSERT INTO nota (codigo_nota, RA, codigo_disciplina, bimestre, nota, data_lancamento)
+INSERT INTO nota (codigo_nota, ra, codigo_disciplina, bimestre, nota, data_lancamento)
 VALUES ('N1004', 'RA001', 'HACK01', 1, 9.5, NOW());
 COMMIT;
 SELECT * FROM nota WHERE codigo_nota = 'N1004';
@@ -660,7 +714,7 @@ SELECT nome FROM FORNECEDOR;
 SELECT numero_nota_fiscal, valor FROM DESPESA;
 SELECT numero_comprovante, valor_pago FROM PAGAMENTO_FORNECEDOR;
 
-/* SUBSELECT COM AGREGAÇÃO - FINANCEIRO */
+/*SUBSELECT COM AGREGAÇÃO - FINANCEIRO */
 
 SELECT codigo_verba
 FROM VERBA
@@ -671,27 +725,57 @@ WHERE codigo_verba IN (
     HAVING SUM(valor) > 10000
 );
 
-/* TRANSAÇÕES ROLLBACK - FINANCEIRO */
+/*TRANSAÇÕES ROLLBACK - FINANCEIRO */
 
 START TRANSACTION;
 INSERT INTO PAGAMENTO_FORNECEDOR VALUES ('PG_TESTE', '2024-04-01', 1000.00, 'PIX', 'PAGO', 'NF101', '22334455000166', CURRENT_TIMESTAMP);
 ROLLBACK;
 
-/* TRANSAÇÕES ROLLBACK - FINANCEIRO */
+/*TRANSAÇÕES COMMIT - FINANCEIRO */
 
 START TRANSACTION;
 INSERT INTO PAGAMENTO_FORNECEDOR VALUES ('PG_OK_FINAL', '2024-04-01', 1000.00, 'PIX', 'PAGO', 'NF101', '22334455000166', CURRENT_TIMESTAMP);
 COMMIT;
 
-/* FASE 4 - MODELO OLAP (ESTRELA) */
+/*SELECT SIMPLES - RH */
+SELECT nome_funcionario, sobrenome FROM FUNCIONARIO;
+SELECT nome_departamento FROM DEPARTAMENTO;
+SELECT nome_cargo FROM CARGOS_E_FUNCOES;
+
+/* SUBSELECT COM AGREGAÇÃO - RH */
+SELECT nome_funcionario
+FROM FUNCIONARIO
+WHERE pk_funcionario IN (
+    SELECT fk_funcionario
+    FROM NOTAS_FINANCEIRO
+    GROUP BY fk_funcionario
+    HAVING SUM(valor_monetario) > 4000
+);
+
+/* TRANSAÇÕES RH  */
+-- ROLLBACK
+START TRANSACTION;
+INSERT INTO NOTAS_FINANCEIRO (pk_lancamento, fk_funcionario, descricao, data_lancamento, valor_monetario) 
+VALUES (10, 1, 'Bônus', '2024-03-10', 1000);
+ROLLBACK;
+
+-- COMMIT
+START TRANSACTION;
+INSERT INTO NOTAS_FINANCEIRO (pk_lancamento, fk_funcionario, descricao, data_lancamento, valor_monetario) 
+VALUES (11, 1, 'Bônus', '2024-03-10', 1000);
+COMMIT;
+
+
+/* FASE 4 - MODELO OLAP (ESTRELA)*/
 
 /*CRIAÇÃO - ACADÊMICO */
 
--- GRANULARIDADE: 
+/* GRANULARIDADE: 1 linha representa uma presença de 
+1 aluno em uma data de aula. */
 
 CREATE TABLE dim_aluno (
     sk_aluno INT AUTO_INCREMENT PRIMARY KEY,
-    RA VARCHAR(20) NOT NULL UNIQUE,
+    ra VARCHAR(20) NOT NULL UNIQUE,
     cpf CHAR(11),
     primeiro_nome VARCHAR(50),
     sobrenome VARCHAR(20),
@@ -744,10 +828,10 @@ FOREIGN KEY (sk_turma) REFERENCES dim_turma(sk_turma),
 FOREIGN KEY (sk_tempo) REFERENCES dim_tempo(sk_tempo)
 );
 
-/* CRIAÇÃO - FINANCEIRO */
+/*CRIAÇÃO - FINANCEIRO */
 
--- GRANULARIDADE: 1 linha na tabela fato representa 
---                1 pagamento por fornecedor por data.
+/* GRANULARIDADE: 1 linha na tabela fato representa 
+1 pagamento por fornecedor por data. */
 
 -- Tabela Fato:
 CREATE TABLE FATO_FINANCEIRO (
@@ -783,21 +867,58 @@ CREATE TABLE DIM_VERBA (
     origem VARCHAR(50)
 );
 
+/* CRIAÇÃO - RH */
+
+/* GRANULARIDADE: 1 linha na tabela fato representa 
+1 pagamento de salário por funcionário por data de referência.*/
+
+-- Tabela Fato:
+CREATE TABLE FATO_FOLHA_PAGAMENTO (
+    sk_fato INT AUTO_INCREMENT PRIMARY KEY,
+    sk_tempo INT,
+    sk_funcionario INT,
+    sk_departamento INT,
+    valor_total DECIMAL(12,2)
+);
+
+-- Dimensão Tempo:
+CREATE TABLE DIM_TEMPO_RH (
+    sk_tempo INT AUTO_INCREMENT PRIMARY KEY,
+    data DATE,
+    ano INT,
+    mes INT,
+    nome_mes VARCHAR(20)
+);
+
+-- Dimensão Funcionário:
+CREATE TABLE DIM_FUNCIONARIO (
+    sk_funcionario INT AUTO_INCREMENT PRIMARY KEY,
+    pk_funcionario INT,
+    nome_completo VARCHAR(200),
+    cpf VARCHAR(11)
+);
+
+-- Dimensão Departamento:
+CREATE TABLE DIM_DEPARTAMENTO (
+    sk_departamento INT AUTO_INCREMENT PRIMARY KEY,
+    pk_departamento INT,
+    nome_departamento VARCHAR(100)
+);
 
 
-/* ETL (CARGA DAS DIMENSÕES E FATO) */
+/* ETL (CARGA DAS DIMENSÕES E FATO)*/
 
-/*CARGA - ACADÊMICO */
+/* CARGA - ACADÊMICO */
 
 INSERT INTO dim_aluno (
-    RA,
+    ra,
     cpf,
     primeiro_nome,
     sobrenome,
     data_nascimento
 )
 SELECT 
-    a.RA,
+    a.ra,
     p.cpf,
     UPPER(p.primeiro_nome),
     UPPER(p.sobrenome),
@@ -864,13 +985,13 @@ SELECT
     CASE WHEN f.status_presenca = 'Justificada' THEN 1 ELSE 0 END
 
 FROM frequencia f
-JOIN dim_aluno da ON da.RA = f.RA_aluno
+JOIN dim_aluno da ON da.ra = f.ra_aluno
 JOIN dim_disciplina dd ON dd.codigo_disciplina = f.codigo_disciplina
 JOIN dim_turma dtur 
     ON dtur.nome_turma = (
         SELECT turma 
         FROM matricula m 
-        WHERE m.RA = f.RA_aluno 
+        WHERE m.ra = f.ra_aluno 
         LIMIT 1
     )
 JOIN dim_tempo dt 
@@ -900,15 +1021,41 @@ JOIN DIM_TEMPO_FINANC dt ON dt.data = p.data_pagamento
 JOIN DIM_FORNECEDOR df ON df.CNPJ = p.CNPJ_fornecedor
 JOIN DIM_VERBA dv ON dv.codigo_verba = d.codigo_verba;
 
+/* CARGA - RH */
+-- Carga dimensão tempo
+INSERT INTO DIM_TEMPO_RH (data, ano, mes, nome_mes)
+SELECT DISTINCT data_admissao, YEAR(data_admissao), MONTH(data_admissao), MONTHNAME(data_admissao)
+FROM CONTRATOS;
+
+-- Carga dimensão funcionário
+INSERT INTO DIM_FUNCIONARIO (pk_funcionario, nome_completo, cpf)
+SELECT pk_funcionario, CONCAT(nome_funcionario, ' ', sobrenome), cpf 
+FROM FUNCIONARIO;
+
+-- Carga dimensão departamento
+INSERT INTO DIM_DEPARTAMENTO (pk_departamento, nome_departamento)
+SELECT pk_departamento, nome_departamento 
+FROM DEPARTAMENTO;
+
+-- Carga fato
+INSERT INTO FATO_FOLHA_PAGAMENTO (sk_tempo, sk_funcionario, sk_departamento, valor_total)
+SELECT dt.sk_tempo, df.sk_funcionario, dd.sk_departamento, c.salario_base
+FROM CONTRATOS c
+JOIN DIM_TEMPO_RH dt ON dt.data = c.data_admissao
+JOIN DIM_FUNCIONARIO df ON df.pk_funcionario = c.fk_funcionario
+JOIN CARGOS_E_FUNCOES cf ON c.fk_cargo = cf.pk_cargo
+JOIN DIM_DEPARTAMENTO dd ON cf.fk_departamento = dd.pk_departamento;
+
+
 /*  EXTRAÇÃO (OLTP) */
 SELECT 
-    f.RA_aluno,
+    f.ra_aluno,
     f.codigo_disciplina,
     f.data_aula,
     f.status_presenca
 FROM frequencia f;
 
-/*LOOKUP PARA CARGA DA FATO (OLAP) */
+/* LOOKUP PARA CARGA DA FATO (OLAP) */
 
     SELECT 
     da.sk_aluno,
@@ -918,13 +1065,13 @@ FROM frequencia f;
     f.status_presenca
 FROM frequencia f
 JOIN dim_aluno da 
-    ON f.RA_aluno = da.RA
+    ON f.ra_aluno = da.ra
 
 JOIN dim_disciplina dd 
     ON f.codigo_disciplina = dd.codigo_disciplina
 
 JOIN matricula m 
-    ON f.RA_aluno = m.RA 
+    ON f.RA_aluno = m.ra 
     AND f.codigo_disciplina = m.codigo_disciplina
 
 JOIN dim_turma dtur 
@@ -936,9 +1083,9 @@ JOIN dim_tempo dt
     AND dt.mes = MONTH(f.data_aula)
     AND dt.ano = YEAR(f.data_aula);
     
-/*  VALIDAÇÃO DO DW */
+/* VALIDAÇÃO DO DW */
 
-/*VALIDAÇÃO ACADÊMICO */
+/*VALIDAÇÃO ETL ACADÊMICO */
 
 -- consistência OLTP vs OLAP 
 SELECT COUNT(*) FROM frequencia;
@@ -948,12 +1095,22 @@ SELECT COUNT(*) FROM fato_frequencia;
 SELECT SUM(qtd_presenca + qtd_falta + qtd_falta_justificada)
 FROM fato_frequencia;
 
-/*VALIDAÇÃO - FINANCEIRO */
+/*VALIDAÇÃO ETL - FINANCEIRO */
 SELECT SUM(valor_pago) FROM PAGAMENTO_FORNECEDOR;
 SELECT SUM(valor_total) FROM FATO_FINANCEIRO;
 
+/*VALIDAÇÃO ETL - RH */
+SELECT SUM(salario_base) FROM CONTRATOS;
+SELECT SUM(valor_total) FROM FATO_FOLHA_PAGAMENTO;
 
-/*FASE 5 - ÍNDICES E OTIMIZAÇÃO */
+SELECT d.nome_mes, SUM(f.valor_total) AS total_folha
+FROM FATO_FOLHA_PAGAMENTO f
+JOIN DIM_TEMPO d ON f.sk_tempo = d.sk_tempo
+GROUP BY d.nome_mes
+ORDER BY total_folha DESC;
+
+
+/* FASE 5 - ÍNDICES E OTIMIZAÇÃO */
 
 /*ACADÊMICO */
 
@@ -963,13 +1120,14 @@ ON fato_frequencia(sk_aluno);
 CREATE INDEX idx_fato_frequencia_disciplina 
 ON fato_frequencia(sk_disciplina);
 
+
 CREATE INDEX idx_fato_frequencia_turma 
 ON fato_frequencia(sk_turma);
 
 CREATE INDEX idx_fato_frequencia_tempo 
 ON fato_frequencia(sk_tempo);
 
-/* VALIDAÇÃO COM EXPLAIN */
+-- VALIDAÇÃO COM EXPLAIN 
 
 EXPLAIN
 SELECT 
@@ -985,7 +1143,7 @@ GROUP BY
     dim_aluno.primeiro_nome,
     dim_aluno.sobrenome;
     
-/*FINANCEIRO */
+/* FINANCEIRO */
 
 CREATE INDEX idx_escola_telefone_cnpj_escola ON escola_telefone(cnpj_escola);
 CREATE INDEX idx_escola_email_cnpj_escola ON escola_email(cnpj_escola);
@@ -1002,8 +1160,31 @@ CREATE INDEX idx_prestacao_contas_cnpj_escola ON prestacao_contas(cnpj_escola);
 CREATE INDEX idx_prestacao_verba_protocolo ON prestacao_verba(protocolo_envio);
 CREATE INDEX idx_prestacao_verba_codigo_verba ON prestacao_verba(codigo_verba);
 
--- VALIDAÇÃO
+-- VALIDAÇÃO COM EXPLAIN
 
 EXPLAIN SELECT d.numero_nota_fiscal, f.nome
 FROM despesa d
 JOIN fornecedor f ON d.cnpj_fornecedor = f.cnpj;
+
+/* RH */
+
+CREATE INDEX idx_cargos_fk_departamento ON cargos_e_funcoes(fk_departamento);
+CREATE INDEX idx_cargos_fk_nivel ON cargos_e_funcoes(fk_nivel);
+CREATE INDEX idx_contratos_fk_funcionario ON contratos(fk_funcionario);
+CREATE INDEX idx_contratos_fk_cargo ON contratos(fk_cargo);
+CREATE INDEX idx_alocacao_fk_funcionario ON alocacao(fk_funcionario);
+CREATE INDEX idx_alocacao_fk_cargo ON alocacao(fk_cargo);
+CREATE INDEX idx_beneficios_pk_funcionario ON beneficios(pk_funcionario);
+CREATE INDEX idx_notas_financeiro_fk_funcionario ON notas_financeiro(fk_funcionario);
+CREATE INDEX idx_historico_fk_funcionario ON historico_funcionario(fk_funcionario);
+CREATE INDEX idx_dependentes_fk_funcionario ON dependentes(fk_funcionario);
+
+-- VALIDAÇÃO COM EXPLAIN
+EXPLAIN SELECT 
+    f.nome_funcionario, 
+    c.salario_base, 
+    n.valor_monetario 
+FROM funcionario f
+JOIN contratos c ON f.pk_funcionario = c.fk_funcionario
+JOIN notas_financeiro n ON f.pk_funcionario = n.fk_funcionario
+WHERE f.cpf = '12345678901';
