@@ -418,7 +418,7 @@ fk_nivel int NOT NULL, -- nível do contrato
 data_admissao date NOT NULL, -- data de admissão
 salario_base   decimal(12,2) NOT NULL, -- salário base
 status_contratos ENUM('ativo','inativo')
-DEFAULT 'ativo', /*ARRUMAR DER E DICIONÁRIO DE DADOS DESSE CAMPO*/
+DEFAULT 'ativo', 
 
 FOREIGN KEY (fk_funcionario) REFERENCES funcionario(pk_funcionario),
 FOREIGN KEY (fk_cargo) REFERENCES cargos_e_funcoes(pk_cargo),
@@ -544,7 +544,7 @@ SELECT COUNT(*) FROM matricula;
 INSERT IGNORE INTO nota
 (codigo_nota, ra, codigo_disciplina, bimestre, nota, data_lancamento)
 VALUES
-('N001', 'RA001', 'HACK01', 1, 9.8, NOW()), -- Elliot hacker nível Deus
+('N001', 'RA001', 'HACK01', 1, 9.8, NOW()), -- Elliot 
 ('N002', 'RA002', 'HACK02', 1, 8.5, NOW()),
 ('N003', 'RA003', 'HACK01', 1, 9.0, NOW());
 
@@ -843,7 +843,7 @@ CREATE TABLE FATO_FINANCEIRO (
 );
 
 -- Dimensão Tempo:
-CREATE TABLE DIM_TEMPO_FINANC ( -- MUDAR TABELA DELES 
+CREATE TABLE DIM_TEMPO_FINANC ( 
     sk_tempo INT AUTO_INCREMENT PRIMARY KEY,
     data DATE,
     ano INT,
