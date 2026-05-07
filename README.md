@@ -11,11 +11,24 @@ Por fim, a modelagem do sistema foi desenvolvida por meio de uma Diagrama Entida
 
 ---
 
+
 ## Módulos do Sistema
 
 - **Acadêmico:** controle de alunos, turmas, notas e frequência  
 - **Financeiro:** gestão de verbas, despesas e pagamentos  
 - **Recursos Humanos:** controle de funcionários e vínculos  
+
+---
+
+## Diferencial do Projeto
+
+Como diferencial, implementamos uma solução voltada à segurança dos alunos, incluindo:
+
+Cadastro de responsáveis
+Contatos de emergência
+Sistema de notificação em tempo real
+
+Esse sistema alerta os responsáveis sobre a presença ou ausência dos alunos nas aulas, atendendo uma necessidade real das escolas públicas.
 
 ---
 
@@ -81,6 +94,7 @@ documentacao
 - SQL
 - DER (Diagrama Entidade-Relacionamento)
 - dbdiagram.io (modelagem do banco)
+- Vs Code
 
 ---
 

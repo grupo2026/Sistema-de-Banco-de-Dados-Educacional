@@ -418,8 +418,7 @@ fk_nivel int NOT NULL, -- nível do contrato
 data_admissao date NOT NULL, -- data de admissão
 salario_base   decimal(12,2) NOT NULL, -- salário base
 status_contratos ENUM('ativo','inativo')
-DEFAULT 'ativo', 
-
+DEFAULT 'ativo',
 FOREIGN KEY (fk_funcionario) REFERENCES funcionario(pk_funcionario),
 FOREIGN KEY (fk_cargo) REFERENCES cargos_e_funcoes(pk_cargo),
 FOREIGN KEY (fk_nivel) REFERENCES niveis_hierarquicos(pk_nivel)
