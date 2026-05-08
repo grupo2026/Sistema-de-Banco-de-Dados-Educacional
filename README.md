@@ -90,6 +90,27 @@ documentacao
 
 ---
 
+## Como Executar o Projeto
+
+### Requisitos
+- MySQL Server
+- MySQL Workbench ou XAMPP
+
+### Passos
+
+1. Clone o repositório:
+```bash
+git clone https://github.com/grupo2026/Sistema-de-Banco-de-Dados-Educacional.git
+```
+
+2. Abra o MySQL Workbench.
+
+3. Execute o arquivo:
+
+```sql
+run_all.sql
+```
+
 ##  Tecnologias utilizadas
 - SQL
 - DER (Diagrama Entidade-Relacionamento)
