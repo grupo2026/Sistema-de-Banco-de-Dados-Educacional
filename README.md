@@ -86,7 +86,7 @@ documentacao
 
 ## SQL 
 
-- [Script sql ](sql/script.sql)
+- [Script sql ](sql/run_all.sql)
 
 ---
 
